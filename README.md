@@ -23,33 +23,33 @@ Memvat uses a slightly tweaked version of the Node.js event Emitter. A Memvat ev
 ### Activity based events.
 
 ```javascript
-  var m = new Memvat;
+var m = new Memvat;
 
-  m.on('get', function(key, value) {
-    console.log('getting: ',key, value);
-  });
+m.on('get', function(key, value) {
+  console.log('getting: ',key, value);
+});
 
-  m.set('foo', 'bar');
+m.set('foo', 'bar');
 
-  m.get('foo');
+m.get('foo');
 ```
 
 ### Activity/Key based events.
 
 ```javascript
-    var m = new Memvat;
+var m = new Memvat;
 
-    m.on('get', 'foo', function(key, value) {
-      console.log('getting: ',key, value);
-    });
-    
-    m.on('set', 'foo', function(key, value) {
-      console.log('setting: ', key, value);
-    });    
+m.on('get', 'foo', function(key, value) {
+  console.log('getting: ',key, value);
+});
 
-    m.set('foo', 'bar');
+m.on('set', 'foo', function(key, value) {
+  console.log('setting: ', key, value);
+});    
 
-    m.get('foo');
+m.set('foo', 'bar');
+
+m.get('foo');
 ```
 
 
