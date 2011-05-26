@@ -2,7 +2,7 @@
 
 # Synopsis
 
-EventVat is event based. A **Vat** is a large tank or tub used to hold liquid. Because of the type of data EventVat deals with, it's contents could be considered liquid like.
+A **Vat** is a large tank or tub used to hold liquid. Because of the type of data EventVat deals with, it's contents could be considered liquid like.
 
 EventVat is a in-process key/value store with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's evented, which means that when API calls are made, events will be raised for which a callback can be provided. EventVat is great for working with volatile (short time to live) data in Node.js and the browser.
 
@@ -58,7 +58,7 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
 #### EventVat(data)
 
 ```javascript
-  var m = EventVat(data); // create a new EventVat object with a existing key/value pairs, returns new instance.
+  var demo = EventVat(data); // create a new EventVat object with a existing key/value pairs, returns new instance.
 ```
 
 ### Instance methods
@@ -66,60 +66,80 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
 Get the value of the `key`, returns the value retrieved.
 
 ```javascript
-  m.get('foo'); 
+  demo.get('foo'); 
 ```
 
 #### set(key [, value, ttl])
 Set the value of `key` to `value`, returns boolean value to represent the success of the operation. If no value is assigned, the key's value will be emptied. if a time to live is specified, the key will be deleted after N milliseconds.
 
 ```javascript
-  m.set('foo', 'bar');
+  demo.set('foo', 'bar');
 ```
 
 #### setnx(key, value)
 Set a value on a key, but only do so if one does not exist. If the `key` already exists, return false.
 
 ```javascript
-  m.setnx('key', 'value'); // create 'key' and assign it nothing, returns false upon finding existing key.
+  demo.setnx('key', 'value'); // create 'key' and assign it nothing, returns false upon finding existing key.
 ```
 
 #### ttl(key [, value])
 Find the TTL (time to live) value, or assign one to a key.
 
 ```javascript
-  m.ttl('key'); // reutns the time to live.
-  m.ttl('key', '+1000'); // add time.
-  m.ttl('key', '-1000'); // subtract time.
+  demo.ttl('key'); // reutns the time to live.
+  demo.ttl('key', '+1000'); // add time.
+  demo.ttl('key', '-1000'); // subtract time.
 ```
 
+#### ren(a, b, reset)
+Rename a key from `a` to `b`. Will preserve the date/timestamp unless the boolean value `reset` is provided. Returns boolean value to represent the success of the operation.
 
-m.ren('key', 'key'); // rename a key, preserve the date/timestamp, returns success bool.
+```javascript
+  demo.ren('key', 'key');
+```
 
-m.decr('key'); // if the value is numeric, decrement it.
-m.incr('key'); // if the value is numeric, increment it.
+#### decr(key)
+If the value of `key` is numeric, decrement it and return the new value.
 
-m.swap('key', 'key'); // swap the value of one key with another.
-m.findin('key', 'value'); // same as indexOf in a string.
-m.replace('key', '')
+```javascript
+  demo.decr('key');
+```
 
-m.del('key'); // delete the 'key' key, returns success bool.
+#### incr(key)
+If the value of `key` is numeric, increment it and return the new value.
 
-m.created('key'); // returns the date/time the 'key' key was created.
+```javascript
+  demo.incr('key'); // if the value is numeric, increment it.
+```
 
-m.exists('key', function(key, value) { // an event handler registered to the 'key' key if it exists.
+#### swap(a, b, depth)
+Swap the value of `a` with `b`, if the boolean value `depth` is provided, the `created`, `modified`, `value` and `ttl` values will be 
+
+
+  demo.swap('key', 'key');
+
+demo.findin('key', 'value'); // same as indexOf in a string.
+demo.replace('key', '')
+
+demo.del('key'); // delete the 'key' key, returns success bool.
+
+demo.created('key'); // returns the date/time the 'key' key was created.
+
+demo.exists('key', function(key, value) { // an event handler registered to the 'key' key if it exists.
   console.log(key, value);
 });
 
-m.exists('key', 1000, function(key, value) { // an event handler registered to the 'key' key if it exists after Time.
+demo.exists('key', 1000, function(key, value) { // an event handler registered to the 'key' key if it exists after Time.
   console.log(key, value);
 });
 
-m.on('del', 'key', function(key, value) { // an event handler registered to the 'del' event for the 'key' key.
+demo.on('del', 'key', function(key, value) { // an event handler registered to the 'del' event for the 'key' key.
   console.log(key, value);
 });
 
 
-m.dump(true); // get everything and dump it, accepts bool for JSON.stringify
+demo.dump(true); // get everything and dump it, accepts bool for JSON.stringify
 
 
 
