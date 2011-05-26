@@ -2,7 +2,7 @@
 
 # Synopsis
 
-EvtVat - Pronounced "Event Vat" is the combination of two words; *Event*, A thing that happens at a point in time and *Vat*, A large tank or tub used to hold liquid. Because EvtVat deals with volatile data, it's contents could be considered liquid like.
+EvtVat - Pronounced "Event Vat" is the combination of two words; **Event**, A thing that happens at a point in time and **Vat**, A large tank or tub used to hold liquid. Because EvtVat deals with volatile data, it's contents could be considered liquid like.
 
 EvtVat is a in-process key/value store. It's a simple data model with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's evented, which means that when changes are made to the data, an event will get raised for which a callback can be provided. EvtVat is great for working with volatile (short time to live) data in Node.js and the browser.
 
