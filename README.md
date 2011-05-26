@@ -11,7 +11,7 @@ EvtVat is a in-process key/value store with an API inspired by Redis. It support
  - Reduce trips across the process boundary.
  - Portability, works in the browser and on the server.
  - Event based key/value storage and retrieval.
- - A single API for many data storage end-points.
+ - A single API for many data storage end-points (such as local browser storage, a local filesystem or couchdb).
 
 # Usage
 
@@ -54,19 +54,30 @@ m.get('foo');
 
 # API
 
+### Constructor
+var m = EvtVat(data); // create a new EvtVat object with a existing key/value pairs, returns new instance.
+
+### Instance methods
+#### get(key)
+Get the value of the `key`, returns the value retrieved.
+```javascript
+m.get('foo'); 
+```
+
+#### set(key, value)
+Set the value of `key` to `value`, returns boolean value to represent the success of the operation.
+```javascript
+m.set('foo', 'bar');
+```
+
+#### set(key, value)
+Create `key` and assign it nothing, overwrites existing, new timestamp, returns boolean value to represent the success of the operation.
+```javascript
+m.set('key', true); 
+```
 
 
-// EvtVat is a pluggable, evented, key/value store for single process, short-term run-time environments.
 
-var m = EvtVat({ "key": "value" }); // create a new EvtVat object with a existing key/value pairs, returns new instance.
-
-var m = EvtVat('id'); // create a new EvtVat object with a existing key/value pairs, returns new instance.
-
-
-m.get('key'); // get the value of the 'key' key, returns value.
-
-m.set('key', 'value'); // set the value of 'key' to 'value', returns bool.
-m.set('key', true); // create 'key' and assign it nothing, overwrites existing, new timestamp, returns success bool.
 m.setnx('key', 'value'); // create 'key' and assign it nothing, returns false upon finding existing key.
 
 m.set(m.random(), 'value'); // creates a random key and assigns it 'value', returns the new key.
