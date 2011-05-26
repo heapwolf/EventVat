@@ -23,33 +23,33 @@ EvtVat uses a slightly tweaked version of the Node.js event Emitter. A EvtVat ev
 ### Activity based events.
 
 ```javascript
-var m = new EvtVat;
+  var m = new EvtVat;
 
-m.on('get', function(key, value) {
-  console.log('getting: ',key, value);
-});
+  m.on('get', function(key, value) {
+    console.log('getting: ',key, value);
+  });
 
-m.set('foo', 'bar');
+  m.set('foo', 'bar');
 
-m.get('foo');
+  m.get('foo');
 ```
 
 ### Activity/Key based events.
 
 ```javascript
-var m = new EvtVat;
+  var m = new EvtVat;
 
-m.on('get', 'foo', function(key, value) {
-  console.log('getting: ',key, value);
-});
+  m.on('get', 'foo', function(key, value) {
+    console.log('getting: ',key, value);
+  });
 
-m.on('set', 'foo', function(key, value) {
-  console.log('setting: ', key, value);
-});    
+  m.on('set', 'foo', function(key, value) {
+    console.log('setting: ', key, value);
+  });    
 
-m.set('foo', 'bar');
+  m.set('foo', 'bar');
 
-m.get('foo');
+  m.get('foo');
 ```
 
 # API
