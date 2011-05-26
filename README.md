@@ -1,5 +1,4 @@
-
-
+![Alt text](https://github.com/hij1nx/memvat/raw/master/logo.png)
 
 Memvat - *Memory* (To retain information), *Vat* (A large tank or tub used to hold liquid)
 
