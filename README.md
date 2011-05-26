@@ -116,48 +116,62 @@ If the value of `key` is numeric, increment it and return the new value.
 #### swap(a, b, depth)
 Swap the value of `a` with `b`, if the boolean value `depth` is provided, the `created`, `modified`, `value` and `ttl` values will be 
 
-
+```javascript
   demo.swap('key', 'key');
+```
 
-demo.findin('key', 'value'); // same as indexOf in a string.
-demo.replace('key', '')
+#### findin(key, value)
+Return an index reflecting the position at which a match was found the `key`'s `value`.
 
-demo.del('key'); // delete the 'key' key, returns success bool.
+```javascript
+  demo.findin('key', 'value'); // same as indexOf in a string.
+```
 
-demo.created('key'); // returns the date/time the 'key' key was created.
+#### replace(key, valueA, valueB, global)
+Within the value of `key`, replace `valueA` with `valueB` once, unless specified by the boolean value `global`.
 
-demo.exists('key', function(key, value) { // an event handler registered to the 'key' key if it exists.
-  console.log(key, value);
-});
+```javascript
+  demo.replace('key', 'foo', 'bar', true)
+```
 
-demo.exists('key', 1000, function(key, value) { // an event handler registered to the 'key' key if it exists after Time.
-  console.log(key, value);
-});
+#### del(key)
+Delete the `key`. Returns boolean value to represent the success of the operation.
 
-demo.on('del', 'key', function(key, value) { // an event handler registered to the 'del' event for the 'key' key.
-  console.log(key, value);
-});
+```javascript
+  demo.del('key');
+```
 
+#### dump(stringify)
+Get the current data store and dump it. `stringify` determines if the method should call JSON.stringify on the data-store prior to returning it.
 
-demo.dump(true); // get everything and dump it, accepts bool for JSON.stringify
-
-
-
-
+```javascript
+  demo.dump(true);
+```
 
 ### Static Methods
 
-#### random()
+#### random() **NOT IMPLEMENTED**
 Generates a random key and assigns it 'value', returns the new key.
 
 ```javascript
   m.set(m.random(), 'value');
 ```
 
-#### save()
+#### save() **NOT IMPLEMENTED**
 Attempts to save a string to a either the local browser storage or a file stream.
 
 ```javascript
   m.save(m.dump(true)); // attempt dump to local storage
 ```
 
+# Licence
+
+(The MIT License)
+
+Copyright (c) 2010 hij1nx <http://www.twitter.com/hij1nx>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
