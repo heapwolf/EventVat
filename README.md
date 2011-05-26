@@ -2,9 +2,9 @@
 
 # Synopsis
 
-A **Vat** is a large tank or tub used to hold liquid. Because of the type of data EventVat deals with, it's contents could be considered liquid like.
+A **Vat** is a large tank or tub used to hold liquid. EventVat deals in volatile data so it's contents could be considered liquid like.
 
-EventVat is a in-process key/value store with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's evented, which means that when API calls are made, events will be raised for which a callback can be provided. EventVat is great for working with volatile (short time to live) data in Node.js and the browser.
+EventVat is a in-process key/value store with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's event based, which means that when API calls are made, events will be raised for which a callback can be provided.
 
 # Motivation
 
