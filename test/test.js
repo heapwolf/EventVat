@@ -1,11 +1,11 @@
 
-var emitter = new Memvat;
+var m = new Memvat;
 
-emitter.on('name', function(first, last){
-    console.log(first + ', ' + last);
+m.on('get', 'foo', function(key, value) {
+  console.log(key, value);
 });
 
-emitter.get();
+m.set('foo', 'bar');
 
-emitter.emit('name', 'a', 'aeeeeeeeeee');
-emitter.emit('name', 'b', 'beee');
+m.get('foo');
+

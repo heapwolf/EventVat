@@ -1,7 +1,50 @@
 
-// Memkey is a pluggable, evented, key/value store for single process, short-term run-time environments.
+Memvat - *Memory* (To retain information), *Vat* (A large tank or tub used to hold liquid)
 
-var m = memvat({ "key": "value" }); // create a new Memkey object with a existing key/value pairs, returns new instance.
+## Synopsis
+
+Memvat is a in-process key/value store. It's a simple data model with an API inspired by Redis. It's evented, which means that when changes are made to the data, an event will get raised for which a callback can be provided. 
+
+Memvat is great for working with, volatile data in Node.js and the browser; data that has a short time to live.
+
+## Motivation
+
+ - Reduce trips across the process boundary.
+ - Portability, works in the browser and on the server.
+ - Event based data manipulation.
+ - A single API for many data storage end-points.
+
+## Usage
+
+Instantiate Memvat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. Memvat uses a slightly tweaked version of the Node.js event Emitter.
+
+```javascript
+    var m = new Memvat;
+
+    m.on('get', 'foo', function(key, value) {
+      console.log('getting: ',key, value);
+    });
+    
+    m.on('set', 'foo', function(key, value) {
+      console.log('setting: ', key, value);
+    });    
+
+    m.set('foo', 'bar');
+
+    m.get('foo');
+```
+
+
+## API
+
+
+
+// Memvat is a pluggable, evented, key/value store for single process, short-term run-time environments.
+
+var m = Memvat({ "key": "value" }); // create a new Memvat object with a existing key/value pairs, returns new instance.
+
+var m = Memvat('id'); // create a new Memvat object with a existing key/value pairs, returns new instance.
+
 
 m.get('key'); // get the value of the 'key' key, returns value.
 
@@ -45,3 +88,6 @@ m.ttl('key', '-1000'); // subtract time.
 
 
 m.dump(true); // get everything and dump it, accepts bool for JSON.stringify
+
+m.save(m.dump(true)); // attempt dump to local storage
+
