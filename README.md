@@ -3,9 +3,7 @@ Memvat - *Memory* (To retain information), *Vat* (A large tank or tub used to ho
 
 ## Synopsis
 
-Memvat is a in-process key/value store. It's a simple data model with an API inspired by Redis. It's evented, which means that when changes are made to the data, an event will get raised for which a callback can be provided. 
-
-Memvat is great for working with, volatile data in Node.js and the browser; data that has a short time to live.
+Memvat is a in-process key/value store. It's a simple data model with an API inspired by Redis. It's evented, which means that when changes are made to the data, an event will get raised for which a callback can be provided. Memvat is great for working with volatile (short time to live) data in Node.js and the browser.
 
 ## Motivation
 
@@ -16,7 +14,23 @@ Memvat is great for working with, volatile data in Node.js and the browser; data
 
 ## Usage
 
-Instantiate Memvat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. Memvat uses a slightly tweaked version of the Node.js event Emitter.
+Instantiate Memvat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. Memvat uses a slightly tweaked version of the Node.js event Emitter. Memvat events have three characteristics, a name, an optional key and a callback.
+
+### Activity based events.
+
+```javascript
+    var m = new Memvat;
+
+    m.on('get', function(key, value) {
+      console.log('getting: ',key, value);
+    });
+
+    m.set('foo', 'bar');
+
+    m.get('foo');
+```
+
+### Activity/Key based events.
 
 ```javascript
     var m = new Memvat;
@@ -33,6 +47,7 @@ Instantiate Memvat with existing data or without. Methods and events are hung of
 
     m.get('foo');
 ```
+
 
 
 ## API
