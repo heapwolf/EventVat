@@ -2,9 +2,9 @@
 
 # Synopsis
 
-EvtVat - Pronounced "Event Vat" is the combination of two words; **Event**, A thing that happens at a point in time and **Vat**, A large tank or tub used to hold liquid. Because EvtVat deals with volatile data, it's contents could be considered liquid like.
+EventVat is the combination of two words; **Event**, and **Vat** (A large tank or tub used to hold liquid). Because EventVat deals with volatile data, it's contents could be considered liquid like.
 
-EvtVat is a in-process key/value store with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's evented, which means that when API calls are made, events will be raised for which a callback can be provided. EvtVat is great for working with volatile (short time to live) data in Node.js and the browser.
+EventVat is a in-process key/value store with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's evented, which means that when API calls are made, events will be raised for which a callback can be provided. EventVat is great for working with volatile (short time to live) data in Node.js and the browser.
 
 # Motivation
 
@@ -15,15 +15,15 @@ EvtVat is a in-process key/value store with an API inspired by Redis. It support
 
 # Usage
 
-Instantiate EvtVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
+Instantiate EventVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
 
 ## events
-EvtVat uses a slightly tweaked version of the Node.js event Emitter. A EvtVat event has three characteristics, a name, an optional key and a callback.
+EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVat event has three characteristics, a name, an optional key and a callback.
 
 ### Activity based events.
 
 ```javascript
-  var m = new EvtVat;
+  var m = new EventVat;
 
   m.on('get', function(key, value) {
     console.log('getting: ',key, value);
@@ -37,7 +37,7 @@ EvtVat uses a slightly tweaked version of the Node.js event Emitter. A EvtVat ev
 ### Activity/Key based events.
 
 ```javascript
-  var m = new EvtVat;
+  var m = new EventVat;
 
   m.on('get', 'foo', function(key, value) {
     console.log('getting: ',key, value);
@@ -55,10 +55,10 @@ EvtVat uses a slightly tweaked version of the Node.js event Emitter. A EvtVat ev
 # API
 
 ### Constructor
-#### EvtVat(data)
+#### EventVat(data)
 
 ```javascript
-  var m = EvtVat(data); // create a new EvtVat object with a existing key/value pairs, returns new instance.
+  var m = EventVat(data); // create a new EventVat object with a existing key/value pairs, returns new instance.
 ```
 
 ### Instance methods
@@ -93,8 +93,6 @@ Find the TTL (time to live) value, or assign one to a key.
 ```
 
 
-m.set(m.random(), 'value'); // creates a random key and assigns it 'value', returns the new key.
-
 m.ren('key', 'key'); // rename a key, preserve the date/timestamp, returns success bool.
 
 m.decr('key'); // if the value is numeric, decrement it.
@@ -120,13 +118,26 @@ m.on('del', 'key', function(key, value) { // an event handler registered to the 
   console.log(key, value);
 });
 
-m.expire('key', 1000); // a key can expire after Time, returns 
-m.expire('key', 'event'); // a key can expire on Event
-
-
-
 
 m.dump(true); // get everything and dump it, accepts bool for JSON.stringify
 
-m.save(m.dump(true)); // attempt dump to local storage
+
+
+
+
+### Static Methods
+
+#### random()
+Generates a random key and assigns it 'value', returns the new key.
+
+```javascript
+  m.set(m.random(), 'value');
+```
+
+#### save()
+Attempts to save a string to a either the local browser storage or a file stream.
+
+```javascript
+  m.save(m.dump(true)); // attempt dump to local storage
+```
 
