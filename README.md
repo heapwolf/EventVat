@@ -58,7 +58,7 @@ m.get('foo');
 #### EvtVat(data)
 
 ```javascript
-var m = EvtVat(data); // create a new EvtVat object with a existing key/value pairs, returns new instance.
+  var m = EvtVat(data); // create a new EvtVat object with a existing key/value pairs, returns new instance.
 ```
 
 ### Instance methods
@@ -69,23 +69,29 @@ Get the value of the `key`, returns the value retrieved.
   m.get('foo'); 
 ```
 
-#### set(key, value)
-Set the value of `key` to `value`, returns boolean value to represent the success of the operation.
+#### set(key [, value, ttl])
+Set the value of `key` to `value`, returns boolean value to represent the success of the operation. If no value is assigned, the key's value will be emptied. if a time to live is specified, the key will be deleted after N milliseconds.
 
 ```javascript
   m.set('foo', 'bar');
 ```
 
-#### set(key, value)
-Create `key` and assign it nothing, overwrites existing, new timestamp, returns boolean value to represent the success of the operation.
+#### setnx(key, value)
+Set a value on a key, but only do so if one does not exist. If the `key` already exists, return false.
 
 ```javascript
-  m.set('key', true); 
+  m.setnx('key', 'value'); // create 'key' and assign it nothing, returns false upon finding existing key.
 ```
 
+#### ttl(key [, value])
+Find the TTL (time to live) value, or assign one to a key.
 
+```javascript
+  m.ttl('key'); // reutns the time to live.
+  m.ttl('key', '+1000'); // add time.
+  m.ttl('key', '-1000'); // subtract time.
+```
 
-m.setnx('key', 'value'); // create 'key' and assign it nothing, returns false upon finding existing key.
 
 m.set(m.random(), 'value'); // creates a random key and assigns it 'value', returns the new key.
 
@@ -117,9 +123,7 @@ m.on('del', 'key', function(key, value) { // an event handler registered to the 
 m.expire('key', 1000); // a key can expire after Time, returns 
 m.expire('key', 'event'); // a key can expire on Event
 
-m.ttl('key'); // reutns the time to live.
-m.ttl('key', '+1000'); // add time.
-m.ttl('key', '-1000'); // subtract time.
+
 
 
 m.dump(true); // get everything and dump it, accepts bool for JSON.stringify
