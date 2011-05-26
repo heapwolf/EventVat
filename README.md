@@ -1,4 +1,4 @@
-![Alt text](https://github.com/hij1nx/EvtVat/raw/master/logo.png)
+![Alt text](https://github.com/hij1nx/EventVat/raw/master/logo.png)
 
 # Synopsis
 
