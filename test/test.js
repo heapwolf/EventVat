@@ -1,5 +1,5 @@
 
-var m = new Memvat;
+var vat = new EvtVat;
 
 console.log('start')
 
@@ -7,12 +7,12 @@ console.log('start')
 //   console.log(key, value);
 // });
 
-m.on('get', function(key, value) {
+vat.on('get', function(key, value) {
   console.log('>>>'+key, value);
 });
 
-m.set('foo', 'bar');
+vat.set('foo', 'bar');
 
-m.get('foo');
+vat.get('foo');
 
 console.log('done')
