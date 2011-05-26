@@ -55,25 +55,32 @@ m.get('foo');
 # API
 
 ### Constructor
+#### EvtVat(data)
+
+```javascript
 var m = EvtVat(data); // create a new EvtVat object with a existing key/value pairs, returns new instance.
+```
 
 ### Instance methods
 #### get(key)
 Get the value of the `key`, returns the value retrieved.
+
 ```javascript
-m.get('foo'); 
+  m.get('foo'); 
 ```
 
 #### set(key, value)
 Set the value of `key` to `value`, returns boolean value to represent the success of the operation.
+
 ```javascript
-m.set('foo', 'bar');
+  m.set('foo', 'bar');
 ```
 
 #### set(key, value)
 Create `key` and assign it nothing, overwrites existing, new timestamp, returns boolean value to represent the success of the operation.
+
 ```javascript
-m.set('key', true); 
+  m.set('key', true); 
 ```
 
 
