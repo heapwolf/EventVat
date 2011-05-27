@@ -20,7 +20,7 @@ Instantiate EventVat with existing data or without. Methods and events are hung 
 ## events
 EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVat event has three characteristics, a name, an optional key and a callback.
 
-### Activity based events.
+### Regular events.
 
 ```javascript
   var demo = EventVat();
@@ -32,7 +32,7 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
   demo.get('foo');
 ```
 
-### Activity/Key based events.
+### Key based events.
 
 ```javascript
   var demo = EventVat();
