@@ -39,17 +39,17 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
 ```javascript
   var demo = EventVat();
 
-  m.on('get', 'foo', function(key, value) {
+  demo.on('get', 'foo', function(key, value) {
     console.log('getting: ',key, value);
   });
 
-  m.on('set', 'foo', function(key, value) {
+  demo.on('set', 'foo', function(key, value) {
     console.log('setting: ', key, value);
   });    
 
-  m.set('foo', 'bar');
+  demo.set('foo', 'bar');
 
-  m.get('foo');
+  demo.get('foo');
 ```
 
 # API
