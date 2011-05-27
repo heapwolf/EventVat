@@ -4,7 +4,7 @@
 
 A **Vat** is a large tank or tub used to hold liquid. EventVat deals in volatile data so it's contents could be considered liquid like.
 
-EventVat is a in-process key/value store with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's event based, which means that when API calls are made, or key/value pairs expire, events will be raised for which a callback can be provided.
+EventVat is a in-process key/value store with an API inspired by Redis. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`. It's event based, which means that when API calls are made or key/value pairs expire, events will be raised for which a callback can be provided.
 
 # Motivation
 
@@ -172,7 +172,7 @@ Finish documentation and implementations.
 
 (The MIT License)
 
-Copyright (c) 2010 hij1nx <http://www.twitter.com/hij1nx>
+Copyright (c) 2010 hij1nx <http://www.twitter.com/hij1nx>, Joyent, Inc. and other Node contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
