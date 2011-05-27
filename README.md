@@ -23,21 +23,21 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
 ### Activity based events.
 
 ```javascript
-  var m = new EventVat;
+  var demo = EventVat();
 
-  m.on('get', function(key, value) {
+  demo.on('get', function(key, value) {
     console.log('getting: ',key, value);
   });
 
-  m.set('foo', 'bar');
+  demo.set('foo', 'bar');
 
-  m.get('foo');
+  demo.get('foo');
 ```
 
 ### Activity/Key based events.
 
 ```javascript
-  var m = new EventVat;
+  var demo = EventVat();
 
   m.on('get', 'foo', function(key, value) {
     console.log('getting: ',key, value);
@@ -154,15 +154,19 @@ Get the current data store and dump it. `stringify` determines if the method sho
 Generates a random key and assigns it 'value', returns the new key.
 
 ```javascript
-  m.set(m.random(), 'value');
+  demo.set(m.random(), 'value');
 ```
 
 #### save() **NOT IMPLEMENTED**
 Attempts to save a string to a either the local browser storage or a file stream.
 
 ```javascript
-  m.save(m.dump(true)); // attempt dump to local storage
+  demo.save(m.dump(true)); // attempt dump to local storage
 ```
+
+# To-Do
+
+Finish documentation and implementations.
 
 # Licence
 
