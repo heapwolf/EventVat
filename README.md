@@ -2,7 +2,7 @@
 
 # Synopsis
 
-EventVat is a in-process key/value store with an API inspired by Redis. But it's also event based, which means that when API calls are made or key/value pairs expire, events will be raised for which a callback can be provided. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`
+### EventVat is a in-process key/value store with an API inspired by Redis. But it's also **event based**, which means that when changes to the data are made, events will be raised for which a callback can be provided. It supports 5 data types, `strings`, `numbers`, `booleans`, `arrays` and `hashes`
 
 # Motivation
 
