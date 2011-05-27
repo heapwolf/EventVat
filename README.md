@@ -26,10 +26,8 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
   var demo = EventVat();
 
   demo.on('get', function(key, value) {
-    console.log('getting: ',key, value);
+    console.log('getting: ', key, value);
   });
-
-  demo.set('foo', 'bar');
 
   demo.get('foo');
 ```
@@ -40,14 +38,8 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
   var demo = EventVat();
 
   demo.on('get', 'foo', function(key, value) {
-    console.log('getting: ',key, value);
+    console.log('getting: ', key, value);
   });
-
-  demo.on('set', 'foo', function(key, value) {
-    console.log('setting: ', key, value);
-  });    
-
-  demo.set('foo', 'bar');
 
   demo.get('foo');
 ```
@@ -62,6 +54,45 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
 ```
 
 ### Instance methods
+
+- KEYS
+
+#### del(key)
+Delete the `key`. Returns boolean value to represent the success of the operation.
+
+```javascript
+  demo.del('key');
+```
+
+#### exists(key)
+Checks to see if the key exists. Returns boolean value to represent the success of the operation.
+
+```javascript
+  demo.exists('key');
+```
+
+#### expires(key)
+Set a key's time to live in seconds
+
+```javascript
+  demo.expires('key');
+```
+
+#### expireat()
+Set the expiration for a key as a Javascript Date Object timestamp
+
+```javascript
+  demo.expires('key', Date.now()); // obviously expires now
+```
+
+### keys()
+Find all keys matching the given pattern.
+
+```javascript
+  demo.keys(/foo/); // takes a regular expression.
+```
+
+
 #### get(key)
 Get the value of the `key`, returns the value retrieved.
 
@@ -88,8 +119,6 @@ Find the TTL (time to live) value, or assign one to a key.
 
 ```javascript
   demo.ttl('key'); // reutns the time to live.
-  demo.ttl('key', '+1000'); // add time.
-  demo.ttl('key', '-1000'); // subtract time.
 ```
 
 #### ren(a, b, reset)
@@ -132,13 +161,6 @@ Within the value of `key`, replace `valueA` with `valueB` once, unless specified
 
 ```javascript
   demo.replace('key', 'foo', 'bar', true)
-```
-
-#### del(key)
-Delete the `key`. Returns boolean value to represent the success of the operation.
-
-```javascript
-  demo.del('key');
 ```
 
 #### dump(stringify)
