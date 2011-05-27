@@ -1,11 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<DOCTYPE html>
 <html>
   <head>
-    <title>Memvat Tests</title>
-    <script src="../lib/evtvat.js" type="text/javascript" charset="utf-8"></script>
-    <script src="test.js" type="text/javascript" charset="utf-8"></script>
+    <title>EventVat unit tests.</title>
+    <script src="../lib/EventVat.js"></script>
+    <script src="vendor/nodeunit/nodeunit.js"></script>
+    <script src="eventSuite.js"></script>
+    <script src="methodSuite.js"></script>
+    <style>
+      html{height:100%;-webkit-font-smoothing:antialiased;margin:0;padding:0;border:0;overflow-y:scroll}
+      body{height:100%;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;text-align:left;margin:0;padding:0;border:0;background:#414141 url('tests_bg.png') no-repeat center; margin: 50px;}
+      input,button,select,option{font-family:Arial,'Helvetica Neue',Helvetica,sans-serif}
+      h2{color:#fff;font-size:25px;font-weight:bold;text-shadow:0 1px 4px rgba(0,0,0,0.68);letter-spacing:-1px;margin:0}
+      .pass, .fail, h3 {color:#222;font-size:18px;line-height:24px;text-shadow:0 1px 1px rgba(255,255,255,0.33)}
+    </style>
   </head>
   <body>
-    
+    <img src="../logo.png" width="418" height="121" alt="Logo">
+    <br/><br/>
+    <script>
+
+      nodeunit.run({
+        'Events': eventSuite,
+        'Methods': methodSuite
+      });
+
+    </script>
   </body>
 </html>

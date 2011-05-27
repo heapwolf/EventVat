@@ -80,15 +80,44 @@ Set a key's time to live in seconds
 Set the expiration for a key as a Javascript Date Object timestamp
 
 ```javascript
-  demo.expires('key', Date.now()); // obviously expires now
+  demo.expires('key', Date.now()); // obviously only for demonstration, expires now
 ```
 
 #### keys()
-Find all keys matching the given pattern.
+Find all keys matching the given pattern using a regular expression.
 
 ```javascript
-  demo.keys(/foo/); // takes a regular expression.
+  demo.keys(/foo/);
 ```
+
+#### move(key, db) 
+Move a key to another database. **NOT IMPLEMENTED**
+
+```javascript
+  demo.move(key, db); // not sure how this is relevant.
+```
+
+#### object() 
+Inspect the internals of an object. `console.log` instead? **NOT IMPLEMENTED**
+
+```javascript
+  demo.move(key, db);
+```
+
+#### persist()
+Remove the expiration from a key.
+
+```javascript
+  demo.persist(key);
+```
+
+#### randomkey()
+Return a random key from the data.
+
+```javascript
+  demo.randomkey();
+```
+
 
 
 #### get(key)
@@ -119,11 +148,11 @@ Find the TTL (time to live) value, or assign one to a key.
   demo.ttl('key'); // reutns the time to live.
 ```
 
-#### ren(a, b, reset)
+#### rename(a, b, reset)
 Rename a key from `a` to `b`. Will preserve the date/timestamp unless the boolean value `reset` is provided. Returns boolean value to represent the success of the operation.
 
 ```javascript
-  demo.ren('key', 'key');
+  demo.rename('key', 'key');
 ```
 
 #### decr(key)
