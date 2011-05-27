@@ -85,7 +85,7 @@ Set the expiration for a key as a Javascript Date Object timestamp
   demo.expires('key', Date.now()); // obviously expires now
 ```
 
-### keys()
+#### keys()
 Find all keys matching the given pattern.
 
 ```javascript
