@@ -100,7 +100,7 @@ this.eventSuite = {
         test.done();
       }, 10);      
       
-    }
+    },
     
     'Raise event on `persist` method invokation': function (test) {
       
