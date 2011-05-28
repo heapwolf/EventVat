@@ -227,6 +227,27 @@ Get the current data store and dump it. `stringify` determines if the method sho
   demo.dump(true);
 ```
 
+<h3><a href="#">HASHES</a></h3>
+
+To-Do: Implement.
+
+<h3><a href="#">LISTS</a></h3>
+
+To-Do: Implement.
+
+<h3><a href="#">SETS</a></h3>
+
+To-Do: Implement.
+
+<h3><a href="#">SORTED SETS</a></h3>
+
+To-Do: Implement.
+
+<h3><a href="#">TRANSACTIONS</a></h3>
+
+To-Do: Implement?
+
+
 ### Static Methods
 
 #### random() **NOT IMPLEMENTED**
@@ -242,6 +263,7 @@ Attempts to save a string to a either the local browser storage or a file stream
 ```javascript
   demo.save(m.dump(true)); // attempt dump to local storage
 ```
+
 
 # To-Do
 
