@@ -262,7 +262,7 @@ Watch the given keys to determine execution of the MULTI/EXEC block
 
 ```javascript
   // This implementation needs to take into account the 'killer'. At the time of invocation, 
-  // keys that fall into the transaction scope should have their state preserved for use with `discard()`.
+  // keys that fall into the transaction scope may have their ttl-counts preserved for use with `discard()`.
 ```
 
 ### Static Methods
