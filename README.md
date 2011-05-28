@@ -283,6 +283,8 @@ Attempts to save a string to a either the local browser storage or a file stream
 
 ### Events
 
+Events can be raised 
+
 #### newListener
 
 `function (event, listener) { }`
@@ -343,12 +345,6 @@ This event is emitted when the values of two keys are swapped.
 
 This event is emitted when a key is found.
 
-#### findin
-
-`function (key, value, index) { }`
-
-This event is emitted when a key is found.
-
 #### del
 
 `function (key, value, index) { }`
@@ -374,7 +370,7 @@ This event is emitted when a key is made to persist.
 This event is emitted when a key's value is appended to with a new value.
 
 <a name="eventEmitter"></a>
-# EventEmitter
+# Using the EventEmitter
 
 When an `EventEmitter` instance experiences an error, the typical action is
 to emit an `error` event.  Error events are treated as a special case in node.
