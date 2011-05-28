@@ -267,7 +267,7 @@ Watch the given keys to determine execution of the MULTI/EXEC block
 
 ### Static Methods
 
-#### random() **NOT IMPLEMENTED YET**
+#### random()
 Generates a random key and assigns it 'value', returns the new key.
 
 ```javascript
