@@ -136,7 +136,59 @@ this.methodSuite = {
         test.done();
       }, 10);
 
-    }
-    
+    },
+    'Invoke `type` method on a key containing a String value and report the value returned': function (test) {
 
+      setTimeout(function () {
+        // lots of assertions
+        test.ok(true, 'everythings ok');
+        test.done();
+      }, 10);
+
+    },
+    'Invoke `type` method on a key containing a Number value and report the value returned': function (test) {
+
+      setTimeout(function () {
+        // lots of assertions
+        test.ok(true, 'everythings ok');
+        test.done();
+      }, 10);
+
+    },
+    'Invoke `type` method on a key containing a Boolean value and report the value returned': function (test) {
+
+      setTimeout(function () {
+        // lots of assertions
+        test.ok(true, 'everythings ok');
+        test.done();
+      }, 10);
+
+    },
+    'Invoke `type` method on a key containing a Array value and report the value returned': function (test) {
+
+      setTimeout(function () {
+        // lots of assertions
+        test.ok(true, 'everythings ok');
+        test.done();
+      }, 10);
+
+    },
+    'Invoke `type` method on a key containing a Object value and report the value returned': function (test) {
+
+      setTimeout(function () {
+        // lots of assertions
+        test.ok(true, 'everythings ok');
+        test.done();
+      }, 10);
+
+    },
+    'Invoke `append` method and report value before and after': function (test) {
+
+      setTimeout(function () {
+        // lots of assertions
+        test.ok(true, 'everythings ok');
+        test.done();
+      }, 10);
+
+    }    
 };

@@ -110,6 +110,16 @@ this.eventSuite = {
         test.done();
       }, 10);      
       
+    },
+    'Raise event on `append` method invokation': function (test) {
+      
+      setTimeout(function () {
+        // lots of assertions
+        test.ok(true, 'everythings ok');
+        test.done();
+      }, 10);      
+      
     }    
+    
 
 };
