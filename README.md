@@ -16,7 +16,7 @@
 Instantiate EventVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
 
 ## events
-EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVat event has three characteristics, a name, an optional key and a callback.
+EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVat event has three characteristics, a name, an optional key and a callback. Learn more about changes to the EventEmitter and how it works <a href="#eventEmitter">here</a>.
 
 ### Regular events.
 
@@ -280,6 +280,191 @@ Attempts to save a string to a either the local browser storage or a file stream
 ```javascript
   demo.save(m.dump(true)); // attempt dump to local storage
 ```
+
+### Events
+
+#### newListener
+
+`function (event, listener) { }`
+
+This event is emitted any time a new listener is added.
+
+#### set
+
+`function (key, value) { }`
+
+This event is emitted when a value is set on a key.
+
+#### setnx
+
+`function (key, value) { }`
+
+This event is emitted when a value is retrieved from a key that does not exist.
+
+#### get
+
+`function (key, value) { }`
+
+This event is emitted when a value is retrieved from a key.
+
+#### rename
+
+`function (oldKey, newKey) { }`
+
+This event is emitted when a key is renamed.
+
+#### renamenx
+
+`function (oldKey, newKey) { }`
+
+This event is emitted when a key is renamed, but only if the new key does not exist.
+
+#### decr
+
+`function (key, value) { }`
+
+This event is emitted when a key is numeric and its value is decremented.
+
+#### incr
+
+`function (key, value) { }`
+
+This event is emitted when a key is numeric and its value is incremented.
+
+#### swap
+
+`function (key, a, b, depth) { }`
+
+This event is emitted when the values of two keys are swapped.
+
+#### findin
+
+`function (key, value, index) { }`
+
+This event is emitted when a key is found.
+
+#### findin
+
+`function (key, value, index) { }`
+
+This event is emitted when a key is found.
+
+#### del
+
+`function (key, value, index) { }`
+
+This event is emitted when a key is deleted.
+
+#### exists
+
+`function (key, value, index) { }`
+
+This event is emitted when a key is found to exist.
+
+#### persist
+
+`function (key, value, index) { }`
+
+This event is emitted when a key is made to persist.
+
+#### append
+
+`function (key, value, newValue) { }`
+
+This event is emitted when a key's value is appended to with a new value.
+
+<a name="eventEmitter"></a>
+# EventEmitter
+
+When an `EventEmitter` instance experiences an error, the typical action is
+to emit an `error` event.  Error events are treated as a special case in node.
+If there is no listener for it, then the default action is to print a stack
+trace and exit the program.
+
+All EventEmitters emit the event `newListener` when new listeners are
+added.
+
+#### emitter.addListener(event [, key], listener)
+#### emitter.on(event, listener)
+
+Adds a listener to the end of the listeners array for the specified event.
+
+```javascript
+    server.on('get', function(value) {
+      console.log('a value was got!');
+    });
+```
+
+Adds an event listener for a specific key.
+
+```javascript
+    server.on('get', 'foo', function(value, key) {
+      console.log('a value for ' + key + ' was got, it was ' + value + '!');
+    });
+```
+
+#### emitter.once(event, listener)
+
+Adds a **one time** listener for the event. The listener is invoked only the first time the event is fired, after which it is removed.
+
+```javascript
+    server.once('get', function (value) {
+      console.log('Ah, we have our first value!');
+    });
+```javascript
+
+```javascript
+    server.once('get', function (value, key) {
+      console.log('a value for ' + key + ' was got, it was ' + value + '!');
+    });
+```javascript
+
+#### emitter.removeListener(event, listener)
+
+Remove a listener from the listener array for the specified event. **Caution**: changes array indices in the listener array behind the listener.
+
+```javascript
+    var callback = function(value) {
+      console.log('someone connected!');
+    };
+    server.on('get', callback);
+    // ...
+    server.removeListener('get', callback);
+```
+
+#### emitter.removeAllListeners([event])
+
+Removes all listeners, or those of the specified event.
+
+
+#### emitter.setMaxListeners(n)
+
+By default EventEmitters will print a warning if more than 10 listeners are added to it. This is a useful default which helps finding memory leaks. Obviously not all Emitters should be limited to 10. This function allows that to be increased. Set to zero for unlimited.
+
+
+#### emitter.listeners(event)
+
+Returns an array of listeners for the specified event. This array can be manipulated, e.g. to remove listeners.
+
+```javascript
+    server.on('get', function (value) {
+      console.log('someone connected!');
+    });
+    console.log(console.log(server.listeners('get')); // [ [Function] ]
+```
+
+Return an array of listeners specifically for the key provided.
+
+```javascript
+    server.on('get', 'foo', function (value) {
+      console.log(value);
+    });
+    console.log(console.log(server.listeners('get')); // [ [Function] ]
+```
+
+#### emitter.emit(event, key, [arg1], [arg2], [...])
+
+Execute each of the listeners in order with the supplied key (or null) and list of arguments.
 
 # Licence
 
