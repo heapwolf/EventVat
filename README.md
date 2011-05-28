@@ -2,7 +2,7 @@
 
 # Synopsis
 
-### EventVat is an in-process key/value store with an API inspired by Redis. But it's also event based, which means that when changes to the data are made, events will be raised for which a callback can be provided. It supports 5 data types, Strings, Numbers, Booleans, Arrays and Hash Tables.
+### EventVat is an in-process key/value store with an API inspired by Redis. But it's also event based, which means that when changes to the data are made, events will be raised for which a callback can be provided. It supports 5 data types, Strings, Numbers, Booleans, Arrays and Hashes.
 
 # Motivation
 
@@ -245,29 +245,41 @@ To-Do: Implement.
 
 <h3><a href="#">TRANSACTIONS</a></h3>
 
-To-Do: Implement?
+#### discard() **NOT IMPLEMENTED YET**
+Discard all commands issued after MULTI
 
+#### exec() **NOT IMPLEMENTED YET**
+Execute all commands issued after MULTI
+
+#### multi() **NOT IMPLEMENTED YET**
+Mark the start of a transaction block
+
+#### unwatch() **NOT IMPLEMENTED YET**
+Forget about all watched keys
+
+#### watch(key [, ...key]) **NOT IMPLEMENTED YET**
+Watch the given keys to determine execution of the MULTI/EXEC block
+
+```javascript
+  // This implementation needs to take into account the 'killer'. At the time of invocation, 
+  // keys that fall into the transaction scope should have their state preserved for use with `discard()`.
+```
 
 ### Static Methods
 
-#### random() **NOT IMPLEMENTED**
+#### random() **NOT IMPLEMENTED YET**
 Generates a random key and assigns it 'value', returns the new key.
 
 ```javascript
   demo.set(m.random(), 'value');
 ```
 
-#### save() **NOT IMPLEMENTED**
+#### save() **NOT IMPLEMENTED YET**
 Attempts to save a string to a either the local browser storage or a file stream.
 
 ```javascript
   demo.save(m.dump(true)); // attempt dump to local storage
 ```
-
-
-# To-Do
-
-Finish documentation and implementations.
 
 # Licence
 
