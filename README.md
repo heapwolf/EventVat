@@ -411,13 +411,13 @@ Adds a **one time** listener for the event. The listener is invoked only the fir
     server.once('get', function (value) {
       console.log('Ah, we have our first value!');
     });
-```javascript
+```
 
 ```javascript
     server.once('get', function (value, key) {
       console.log('a value for ' + key + ' was got, it was ' + value + '!');
     });
-```javascript
+```
 
 #### emitter.removeListener(event, listener)
 
