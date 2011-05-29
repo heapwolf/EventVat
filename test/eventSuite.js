@@ -2,33 +2,36 @@
 this.eventSuite = {
   '1. Raise event on `get` method invokation for a any key': function (test) {
 
-      vat.on('get', function(key, value) {
-        test.ok(true, 'The get event was raised');
-      });
+    var samplevalue = 10;
 
-      var samplevalue = 10;
+    vat.on('get', function(key, value) {
+      test.ok(value===samplevalue, 'The value was captured by the event.');
+      test.ok(true, 'The get event was raised');
+    });
 
-      vat.set('foo', samplevalue);
-      var val = vat.get('foo');
+    vat.set('foo', samplevalue);
+    var val = vat.get('foo');
 
-      //test.ok(val===samplevalue, 'The value got matches the value set');
-      test.done();
+    test.ok(val===samplevalue, 'The value got matches the value set');
+    test.done();
 
   },
   '2. Raise event on `get` method invokation for a particular key': function (test) {
 
-      vat.on('get', 'foo', function(key, value) {
-        console.log('2', key, value);
-        test.ok(true, 'The get event was raised');
-      });
-      
-      var samplevalue = 10;
-      
-      vat.set('foo', samplevalue);
-      var val = vat.get('foo');
-      
-      //test.ok(val===samplevalue, 'The value got matches the value set');
-      test.done();
+    var samplevalue = 10;
+
+    vat.on('get', 'foo', function(key, value) {
+      test.ok(value===samplevalue, 'The value was captured by the event.');
+      test.ok(true, 'The get event was raised');
+    });
+
+    var samplevalue = 10;
+
+    vat.set('foo', samplevalue);
+    var val = vat.get('foo');
+
+    test.ok(val===samplevalue, 'The value got matches the value set');    
+    test.done();
 
   },  
   '3. Raise event on `set` method invokation for any key': function (test) {
