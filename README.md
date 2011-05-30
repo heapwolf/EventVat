@@ -16,9 +16,21 @@
 Instantiate EventVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
 
 ## events
-EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVat event has three characteristics, a name, an optional key and a callback. Learn more about changes to the EventEmitter and how it works <a href="#eventEmitter">here</a>.
+EventVat works like the Node.js event Emitter. A EventVat event has three characteristics, a name, an optional key and a callback. Learn more about changes to the EventEmitter and how it works <a href="#eventEmitter">here</a>.
 
-### Regular events.
+### Key based events
+
+```javascript
+  var demo = EventVat();
+
+  demo.on('get', 'foo', function(key, value) {
+    console.log('getting: ', key, value);
+  });
+
+  demo.get('foo');
+```
+
+### Regular events, work like they do in Node.js
 
 ```javascript
   var demo = EventVat();
@@ -30,17 +42,6 @@ EventVat uses a slightly tweaked version of the Node.js event Emitter. A EventVa
   demo.get('foo');
 ```
 
-### Key based events.
-
-```javascript
-  var demo = EventVat();
-
-  demo.on('get', 'foo', function(key, value) {
-    console.log('getting: ', key, value);
-  });
-
-  demo.get('foo');
-```
 
 # API
 

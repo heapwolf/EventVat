@@ -2,6 +2,11 @@
 this.eventSuite = {
   '1. Raise event on `get` method invokation for a any key': function (test) {
 
+    if(require) {
+      require('../lib/EventVat');
+    }
+
+    var vat = EventVat();
     var samplevalue = 10;
 
     vat.on('get', function(key, value) {
@@ -18,6 +23,7 @@ this.eventSuite = {
   },
   '2. Raise event on `get` method invokation for a particular key': function (test) {
 
+    var vat = EventVat();
     var samplevalue = 10;
 
     vat.on('get', 'foo', function(key, value) {
@@ -36,6 +42,7 @@ this.eventSuite = {
   },  
   '3. Raise event on `set` method invokation for any key': function (test) {
 
+    var vat = EventVat();
     vat.on('set', function(key, value) {
       test.ok(true, 'The get event was raised');
     });
@@ -48,6 +55,7 @@ this.eventSuite = {
   },
   '4. Raise event on `set` method invokation for a particular key': function (test) {
     
+    var vat = EventVat();
     vat.on('set', 'foo', function(key, value) {
       test.ok(true, 'The get event was raised');
     });
