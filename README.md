@@ -16,26 +16,26 @@
 Instantiate EventVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
 
 ## events
-EventVat works like the Node.js event Emitter. A EventVat event has three characteristics, a name, an optional key and a callback. Learn more about changes to the EventEmitter and how it works <a href="#eventEmitter">here</a>.
+EventVat uses an implementation of <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>. Listeners can be hung off an EventVat object. An EventVat object can emit and event and a listener will respond. An event has three characteristics, the event name, a listener and an associated data key or wildcard.
 
 ### Key based events
 
 ```javascript
   var demo = EventVat();
 
-  demo.on('get', 'foo', function(key, value) {
+  demo.on('get.foo', function(event, key, value) {
     console.log('getting: ', key, value);
   });
 
   demo.get('foo');
 ```
 
-### Regular events, work like they do in Node.js
+### Wildcard events
 
 ```javascript
   var demo = EventVat();
 
-  demo.on('get', function(key, value) {
+  demo.on('get.foo', function(key, value) {
     console.log('getting: ', key, value);
   });
 
@@ -369,99 +369,6 @@ This event is emitted when a key is made to persist.
 `function (key, value, newValue) { }`
 
 This event is emitted when a key's value is appended to with a new value.
-
-<a name="eventEmitter"></a>
-# Using the EventEmitter
-
-When an `EventEmitter` instance experiences an error, the typical action is
-to emit an `error` event.  Error events are treated as a special case in node.
-If there is no listener for it, then the default action is to print a stack
-trace and exit the program.
-
-All EventEmitters emit the event `newListener` when new listeners are
-added.
-
-#### emitter.addListener(event [, key], listener)
-#### emitter.on(event, listener)
-
-Adds a listener to the end of the listeners array for the specified event.
-
-```javascript
-    server.on('get', function(value) {
-      console.log('a value was got!');
-    });
-```
-
-Adds an event listener for a specific key.
-
-```javascript
-    server.on('get', 'foo', function(value, key) {
-      console.log('a value for ' + key + ' was got, it was ' + value + '!');
-    });
-```
-
-#### emitter.once(event, listener)
-
-Adds a **one time** listener for the event. The listener is invoked only the first time the event is fired, after which it is removed.
-
-```javascript
-    server.once('get', function (value) {
-      console.log('Ah, we have our first value!');
-    });
-```
-
-```javascript
-    server.once('get', function (value, key) {
-      console.log('a value for ' + key + ' was got, it was ' + value + '!');
-    });
-```
-
-#### emitter.removeListener(event, listener)
-
-Remove a listener from the listener array for the specified event. **Caution**: changes array indices in the listener array behind the listener.
-
-```javascript
-    var callback = function(value) {
-      console.log('someone connected!');
-    };
-    server.on('get', callback);
-    // ...
-    server.removeListener('get', callback);
-```
-
-#### emitter.removeAllListeners([event])
-
-Removes all listeners, or those of the specified event.
-
-
-#### emitter.setMaxListeners(n)
-
-By default EventEmitters will print a warning if more than 10 listeners are added to it. This is a useful default which helps finding memory leaks. Obviously not all Emitters should be limited to 10. This function allows that to be increased. Set to zero for unlimited.
-
-
-#### emitter.listeners(event)
-
-Returns an array of listeners for the specified event. This array can be manipulated, e.g. to remove listeners.
-
-```javascript
-    server.on('get', function (value) {
-      console.log('someone connected!');
-    });
-    console.log(console.log(server.listeners('get')); // [ [Function] ]
-```
-
-Return an array of listeners specifically for the key provided.
-
-```javascript
-    server.on('get', 'foo', function (value) {
-      console.log(value);
-    });
-    console.log(console.log(server.listeners('get')); // [ [Function] ]
-```
-
-#### emitter.emit(event, key, [arg1], [arg2], [...])
-
-Execute each of the listeners in order with the supplied key (or null) and list of arguments.
 
 # Licence
 
