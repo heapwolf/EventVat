@@ -16,7 +16,7 @@
 Instantiate EventVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
 
 ## events
-EventVat uses an implementation of <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>. Listeners can be hung off an EventVat object. An EventVat object can emit and event and a listener will respond. An event has three characteristics, the event name, a listener and an associated data key or wildcard.
+EventVat uses an implementation of <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>. Listeners can attached to an EventVat object. An EventVat object can emit and event and a listener will respond. An event has three characteristics, the event name, a listener and an associated data key or wildcard.
 
 ### Key based events
 
