@@ -1,10 +1,24 @@
+var simpleEvents = require('nodeunit').testCase;
 
-this.eventSuite = {
+var file = '../../lib/eventemitter2';
+
+module.exports = simpleEvents({
+
+  setUp: function (callback) {
+    var EventEmitter2;
+
+    this.emitter = new EventEmitter2;
+
+
+    callback();
+  },
+
+  tearDown: function (callback) {
+    //clean up?
+    callback();
+  },
+
   '1. Raise event on `get` method invokation for a any key': function (test) {
-
-    if(require) {
-      require('../lib/EventVat');
-    }
 
     var vat = EventVat();
     var samplevalue = 10;
@@ -18,6 +32,7 @@ this.eventSuite = {
     var val = vat.get('foo');
 
     test.ok(val===samplevalue, 'The value got matches the value set');
+    test.expect(3);
     test.done();
 
   },
@@ -26,7 +41,7 @@ this.eventSuite = {
     var vat = EventVat();
     var samplevalue = 10;
 
-    vat.on('get', 'foo', function(key, value) {
+    vat.on('get.foo', function(key, value) {
       test.ok(value===samplevalue, 'The value was captured by the event.');
       test.ok(true, 'The get event was raised');
     });
@@ -37,6 +52,7 @@ this.eventSuite = {
     var val = vat.get('foo');
 
     test.ok(val===samplevalue, 'The value got matches the value set');    
+    test.expect(3);
     test.done();
 
   },  
@@ -50,19 +66,21 @@ this.eventSuite = {
     var samplevalue = 10;
     
     vat.set('foo', samplevalue);
+    test.expect(1);
     test.done();
 
   },
   '4. Raise event on `set` method invokation for a particular key': function (test) {
-    
+
     var vat = EventVat();
-    vat.on('set', 'foo', function(key, value) {
+    vat.on('set.foo', function(key, value) {
       test.ok(true, 'The get event was raised');
     });
     
     var samplevalue = 10;
     
     vat.set('foo', samplevalue);
+    test.expect(1);
     test.done();
 
   },
@@ -70,24 +88,28 @@ this.eventSuite = {
   '5. Raise event on `setnx` method invokation': function (test) {
 
     test.ok(true, 'everythings ok');
+    test.expect(1);
     test.done();
 
   },
   '6. Raise event on `rename` method invokation': function (test) {
 
     test.ok(true, 'everythings ok');
+    test.expect(1);
     test.done();
 
   },
   '7. Raise event on `decr` method invokation': function (test) {
 
     test.ok(true, 'everythings ok');
+    test.expect(1);
     test.done();
 
   },    
   '8. Raise event on `incr` method invokation': function (test) {
 
     test.ok(true, 'everythings ok');
+    test.expect(1);
     test.done();
 
   },
