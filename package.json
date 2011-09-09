@@ -1,0 +1,32 @@
+{
+  "name" : "eventvat",
+  "version" : "0.1.1",
+  "description" : "Evented, in-process key/value store for Node.js and the browser",
+  "main" : "./lib/index.js",
+  "directories" : {
+    "lib" : "./lib",
+    "example" : "./example"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/hij1nx/EventVat.git"
+  },
+  "keywords" : [
+    "storage",
+    "database",
+    "redis"
+  ],
+  "author" : {
+    "name" : "hij1nx",
+    "email" : "hij1nx@me.com",
+    "url" : "http://www.nodejitsu.com"
+  },
+  "maintainers": [
+    { "name": "hij1nx", "email": "hij1nx@me.com" }
+  ],
+  "dependencies": {
+    "eventemitter2": ">=0.4.x"
+  },
+  "license" : "MIT",
+  "engine" : { "node" : ">=0.4" }
+}
