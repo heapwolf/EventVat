@@ -31,6 +31,7 @@ module.exports = simpleEvents({
     vat.on('get', function(key, value) {
       test.equal(value, samplevalue, 'The value was captured by the event.');
       test.ok(true, 'The get event was raised');
+      vat.die();
       test.done();
     });
 
@@ -40,8 +41,8 @@ module.exports = simpleEvents({
     test.equal(val, samplevalue, 'The value got matches the value set');
     test.expect(3);
 
-  }
-  , '2. Raise event on `get` method invokation for a particular key': function (test) {
+  }, 
+  '2. Raise event on `get` method invokation for a particular key': function (test) {
 
     var vat = EventVat();
     var samplevalue = 10;
@@ -49,6 +50,7 @@ module.exports = simpleEvents({
     vat.on('get foo', function(key, value) {
       test.equal(value, samplevalue, 'The value was captured by the event.');
       test.ok(true, 'The get event was raised');
+      vat.die();
       test.done();
     });
 
@@ -67,6 +69,7 @@ module.exports = simpleEvents({
     var vat = EventVat();
     vat.on('set', function(key, value) {
       test.ok(true, 'The get event was raised');
+      vat.die();
       test.done();
     });
     
@@ -82,6 +85,7 @@ module.exports = simpleEvents({
     var vat = EventVat();
     vat.on('set foo', function(key, value) {
       test.ok(true, 'The get event was raised');
+      vat.die();
       test.done();
     });
     

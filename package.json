@@ -30,6 +30,9 @@
   "devDependencies": {
     "nodeunit": "*"
   },
+  "scripts": {
+    "test": "nodeunit test/*-test.js"
+  },
   "license" : "MIT",
   "engine" : { "node" : ">=0.4" }
 }
