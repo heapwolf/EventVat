@@ -2,13 +2,13 @@
 
 # Synopsis
 
-### EventVat is an in-process key/value store with an API that emulates the Redis API. It's also event based, which means that when changes to the data are made, events will be raised for which a callback can be provided. It supports 5 data types, Strings, Numbers, Booleans, Arrays and Hashes.
+### EventVat is an evented in-process key/value store with an API like that of Redis. It's event based, which means that when a method is called that affects the data, corresponding events will be raised. It supports 5 data types, Strings, Numbers, Booleans, Arrays and Hashes.
 
 # Motivation
 
+ - A datastore for small, volitile working sets
  - For processes who do not share data, it reduces unnecessary trips across the process boundary.
  - Portability, works in the browser and on the server.
- - Actions against the data are event based.
  - Write to any storage end-point (such as local browser storage, a filesystem or couchdb).
 
 # Usage
@@ -16,14 +16,14 @@
 Instantiate EventVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
 
 ## events
-EventVat uses an implementation of <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>. Listeners can attached to an EventVat object. An EventVat object can emit and event and a listener will respond. An event has three characteristics, the event name, a listener and an associated data key or wildcard.
+EventVat uses <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>. Listeners can attached to an EventVat object. An EventVat object can emit and event and a listener will respond. An event has three characteristics, the event name, a listener and an associated data key or wildcard.
 
 ### Key based events
 
 ```javascript
-  var demo = EventVat();
+  var vat = EventVat();
 
-  demo.on('get foo', function(key, value) {
+  vat.on('get foo', function(key, value) {
     console.log('getting: ', key, value);
   });
 
@@ -33,13 +33,13 @@ EventVat uses an implementation of <a href="https://github.com/hij1nx/EventEmitt
 ### Wildcard events
 
 ```javascript
-  var demo = EventVat();
+  var vat = EventVat();
 
-  demo.on('get foo', function(key, value) {
+  vat.on('get foo', function(key, value) {
     console.log('getting: ', key, value);
   });
 
-  demo.get('foo');
+  vat.get('foo');
 ```
 
 (The MIT License)

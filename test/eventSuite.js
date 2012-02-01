@@ -1,49 +1,55 @@
-var simpleEvents = require('nodeunit').testCase;
 
-var file = '../../lib/eventemitter2';
+var simpleEvents = require('nodeunit').testCase;
+var EventVat = require('../lib/eventvat');
 
 module.exports = simpleEvents({
 
-  setUp: function (callback) {
-    var EventEmitter2;
-
-    this.emitter = new EventEmitter2;
-
-
-    callback();
+  setUp: function (test) {
+    
+    if (typeof test === 'function') {
+      test();
+    }
+    else {
+      test.done();
+    }
   },
 
-  tearDown: function (callback) {
-    //clean up?
-    callback();
+  tearDown: function (test) {
+    if (typeof test === 'function') {
+      test();
+    }
+    else {
+      test.done();
+    }
   },
 
   '1. Raise event on `get` method invokation for a any key': function (test) {
 
-    var vat = EventVat();
+    var vat = new EventVat;
     var samplevalue = 10;
 
     vat.on('get', function(key, value) {
-      test.ok(value===samplevalue, 'The value was captured by the event.');
+      test.equal(value, samplevalue, 'The value was captured by the event.');
       test.ok(true, 'The get event was raised');
+      test.done();
     });
 
     vat.set('foo', samplevalue);
     var val = vat.get('foo');
 
-    test.ok(val===samplevalue, 'The value got matches the value set');
+    test.equal(val, samplevalue, 'The value got matches the value set');
     test.expect(3);
-    test.done();
 
-  },
-  '2. Raise event on `get` method invokation for a particular key': function (test) {
+  }
+  , '2. Raise event on `get` method invokation for a particular key': function (test) {
 
     var vat = EventVat();
     var samplevalue = 10;
 
-    vat.on('get.foo', function(key, value) {
-      test.ok(value===samplevalue, 'The value was captured by the event.');
+    vat.on('get foo', function(key, value) {
+      test.equal(value, samplevalue, 'The value was captured by the event.');
       test.ok(true, 'The get event was raised');
+      test.done();
     });
 
     var samplevalue = 10;
@@ -53,7 +59,7 @@ module.exports = simpleEvents({
 
     test.ok(val===samplevalue, 'The value got matches the value set');    
     test.expect(3);
-    test.done();
+    
 
   },  
   '3. Raise event on `set` method invokation for any key': function (test) {
@@ -61,27 +67,28 @@ module.exports = simpleEvents({
     var vat = EventVat();
     vat.on('set', function(key, value) {
       test.ok(true, 'The get event was raised');
+      test.done();
     });
     
     var samplevalue = 10;
     
     vat.set('foo', samplevalue);
     test.expect(1);
-    test.done();
+    
 
   },
   '4. Raise event on `set` method invokation for a particular key': function (test) {
 
     var vat = EventVat();
-    vat.on('set.foo', function(key, value) {
+    vat.on('set foo', function(key, value) {
       test.ok(true, 'The get event was raised');
+      test.done();
     });
     
     var samplevalue = 10;
     
     vat.set('foo', samplevalue);
     test.expect(1);
-    test.done();
 
   },
   
@@ -157,7 +164,6 @@ module.exports = simpleEvents({
     test.ok(true, 'everythings ok');
     test.done(); 
     
-  }    
-  
+  }
 
-};
+});
