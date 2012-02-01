@@ -42,9 +42,10 @@ EventVat uses <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>
   var vat = EventVat();
 
   vat.on('get foo', function(key, value) {
-    console.log('getting: ', key, value);
+    console.log('`' + key + '` has the value: `' + value + '`');
   });
 
+  vat.set('foo', 'hello, world');
   vat.get('foo');
 ```
 
