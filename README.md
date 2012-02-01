@@ -11,6 +11,12 @@
  - Portability, works in the browser and on the server.
  - Write to any storage end-point (such as local browser storage, a filesystem or couchdb).
 
+# Installation
+
+```bash
+$npm install eventvat
+```
+
 # Usage
 
 Instantiate EventVat with existing data or without. Methods and events are hung off of the new instance. Each method that can act on the instance will raise an event by the same name. 
@@ -40,6 +46,12 @@ EventVat uses <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>
   });
 
   vat.get('foo');
+```
+
+# Tests
+
+```bash
+$npm test
 ```
 
 (The MIT License)
