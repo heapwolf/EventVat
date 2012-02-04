@@ -1,194 +1,259 @@
+var EventVat = require('../lib/eventvat');
 
 this.methodSuite = {
     'Invoke `get` method and return value': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      test.equal(vat.get('a'), false);
+      
+      vat.die();
+      test.done();
 
     },
     'Invoke `set` method and check value at key': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('a', 123);
+      test.equal(vat.get('a'), 123);
+      
+      vat.die();
+      test.done();
 
     },
     'Invoke `setnx` method against a key that exists': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('a', 123);
+      vat.setnx('a', 'hi');
+      test.equal(vat.get('a'), 123);
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `setnx` method against a key does not exist': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.setnx('a', 'hi');
+      test.equal(vat.get('a'), 'hi');
+
+      vat.die();
+      test.done();
 
     },    
     'Invoke `rename` method and get the value of the new key': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('a', 'hello');
+      vat.rename('a', 'b');
+      test.equal(vat.get('a'), false);
+      test.equal(vat.get('b'), 'hello');
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `decr` method and report new value before and after': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('a', 5);
+      test.equal(vat.get('a'), 5);
+
+      vat.decr('a');
+      test.equal(vat.get('a'), 4);
+
+      vat.die();
+      test.done();
 
     },    
     'Invoke `incr` method and report new value before and after': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('a', 5);
+      test.equal(vat.get('a'), 5);
+
+      vat.incr('a');
+      test.equal(vat.get('a'), 6);
+
+      vat.die();
+      test.done();
 
     },
     
     
     'Invoke `swap` method and report value of both keys before and after': function (test) {
       
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);      
+      var vat = EventVat();
+
+      vat.set('a', 5);
+      vat.set('b', 'hi');
+      test.equal(vat.get('a'), 5);
+      test.equal(vat.get('b'), 'hi');
+
+      vat.swap('a', 'b');
+      test.equal(vat.get('b'), 5);
+      test.equal(vat.get('a'), 'hi');
+
+
+      vat.die();
+      test.done();
       
     },
     'Invoke `findin` method and report value': function (test) {
       
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);      
-      
-    },
-    'Invoke `replace` method and report value before and after': function (test) {
-      
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);      
+      var vat = EventVat();
+
+      vat.set('foo', 'hello');
+      test.equal(vat.findin('foo', 'll'), 2);
+
+      vat.die();
+      test.done();
       
     },
     'Invoke `del` method and report value before and after': function (test) {
       
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);      
+      var vat = EventVat();
+
+      vat.set('foo', 'bar');
+      test.equal(vat.get('foo'), 'bar');
+
+      vat.del('foo');
+      test.equal(vat.get('foo'), false);
+
+      vat.die();
+      test.done();
       
     },
     'Invoke `exists` method against a key that does not exist': function (test) {
       
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);      
+      var vat = EventVat();
+
+      test.equal(vat.exists('foo'), false);
+
+      vat.die();
+      test.done();
       
     },
     'Invoke `exists` method against a key that does exist': function (test) {
       
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);      
+      var vat = EventVat();
+
+      vat.set('foo', 'bar');
+      test.equal(vat.exists('foo'), true);
+
+      vat.die();
+      test.done();
       
     },
-    'Invoke `persist` method against a key': function (test) {
+    'Invoke `persist` method against a key and get the ttl': function (test) {
       
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', 'bar', 60);
+      test.equal(vat.ttl('foo'), 60);
+
+      vat.persist('foo');
+      test.equal(vat.ttl('foo'), undefined);
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `randomkey` method and report the value returned': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', 'bar');
+      vat.set('a', 1);
+      vat.set('b', 2);
+      vat.set('c', 3);
+
+      var key = vat.randomkey();
+      test.ok(key === 'foo' || key === 'a' || key === 'b' || key === 'c');
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `type` method on a key containing a String value and report the value returned': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', 'bar');
+
+      test.equal(vat.type('foo'), 'string');
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `type` method on a key containing a Number value and report the value returned': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', 4);
+
+      test.equal(vat.type('foo'), 'number');
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `type` method on a key containing a Boolean value and report the value returned': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', true);
+
+      test.equal(vat.type('foo'), 'boolean');
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `type` method on a key containing a Array value and report the value returned': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', [1, 2, 3]);
+
+      test.equal(vat.type('foo'), 'array');
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `type` method on a key containing a Object value and report the value returned': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', { hello: 'world' });
+
+      test.equal(vat.type('foo'), 'object');
+
+      vat.die();
+      test.done();
 
     },
     'Invoke `append` method and report value before and after': function (test) {
 
-      setTimeout(function () {
-        // lots of assertions
-        test.ok(true, 'everythings ok');
-        test.done();
-      }, 10);
+      var vat = EventVat();
+
+      vat.set('foo', 'hello');
+      test.equal(vat.get('foo'), 'hello');
+
+      vat.append('foo', ' world!');
+      test.equal(vat.get('foo'), 'hello world!');
+
+      vat.die();
+      test.done();
 
     }    
 };
