@@ -21,10 +21,10 @@
     "email" : "hij1nx@me.com",
     "url" : "http://www.nodejitsu.com"
   },
-  "contributors" : {
-    "name" : "Roly Fentanes",
-    "url" : "https://github.com/fent"
-  },
+  "contributors" : [
+    { "name" : "Roly Fentanes"
+    , "url" : "https://github.com/fent" }
+  ],
   "maintainers": [
     { "name": "hij1nx", "email": "hij1nx@me.com" }
   ],
