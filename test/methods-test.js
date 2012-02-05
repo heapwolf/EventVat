@@ -122,10 +122,13 @@ this.methodSuite = {
       var vat = EventVat();
 
       vat.set('foo', 'bar');
+      vat.set('key2', 'thing');
       test.equal(vat.get('foo'), 'bar');
+      test.equal(vat.get('key2'), 'thing');
 
-      vat.del('foo');
+      test.equal(vat.del('foo', 'key2', 'key3'), 2);
       test.equal(vat.get('foo'), false);
+      test.equal(vat.get('key2'), false);
 
       vat.die();
       test.done();
