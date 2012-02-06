@@ -529,6 +529,26 @@ module.exports = simpleEvents({
     vat.ttl('foo');
     test.expect(1);
 
-  }
+  },
+  '30. Raise event on `keys` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('keys', function(keys, regex) {
+      test.deepEqual(keys, ['one', 'two']);
+      test.equal(regex, r);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.set('one', 1);
+    vat.set('two', 2);
+
+    var r = /one|two/;
+    vat.keys(r);
+    test.expect(2);
+
+  },
 
 });

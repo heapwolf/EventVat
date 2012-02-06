@@ -292,5 +292,19 @@ this.methodSuite = {
         vat.die();
         test.done();
       });
+    },
+    'Invoke `keys` method and report keys returned': function(test) {
+
+      var vat = EventVat();
+
+      vat.set('foo1', 1);
+      vat.set('foo2', 2);
+      vat.set('foobar', 3);
+      vat.set('ufoo', 4);
+
+      test.deepEqual(vat.keys(/^foo/), ['foo1', 'foo2', 'foobar']);
+      vat.die();
+      test.done();
+
     }
 };
