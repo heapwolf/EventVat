@@ -432,6 +432,103 @@ module.exports = simpleEvents({
     vat.append('foo', 'bar');
     test.expect(2);
     
+  },
+  '24. Raise event on `expire` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('expire', function(key, ttl) {
+      test.equal(key, 'foo');
+      test.equal(ttl, 100);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.expire('foo', 100);
+    test.expect(2);
+
+  },
+  '25. Raise event on `expire` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('expire foo', function(ttl) {
+      test.equal(ttl, 100);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.expire('foo', 100);
+    test.expect(1);
+
+  },
+  '26. Raise event on `expireat` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+    var ts = ~~(new Date() / 1000) + 100;
+
+    vat.on('expireat', function(key, dueDate) {
+      test.equal(key, 'foo');
+      test.equal(dueDate, ts);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.expireat('foo', ts);
+    test.expect(2);
+
+  },
+  '27. Raise event on `expireat` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+    var ts = ~~(new Date() / 1000) + 100;
+
+    vat.on('expireat foo', function(dueDate) {
+      test.equal(dueDate, ts);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.expireat('foo', ts);
+    test.expect(1);
+
+  },
+  '28. Raise event on `ttl` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('ttl', function(key, ttl) {
+      test.equal(key, 'foo');
+      test.equal(ttl, 60);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.expire('foo', 60);
+    vat.ttl('foo');
+    test.expect(2);
+
+  },
+  '29. Raise event on `ttl` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('ttl foo', function(ttl) {
+      test.equal(ttl, 60);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.expire('foo', 60);
+    vat.ttl('foo');
+    test.expect(1);
+
   }
 
 });

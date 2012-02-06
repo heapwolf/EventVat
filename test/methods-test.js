@@ -163,7 +163,7 @@ this.methodSuite = {
       test.equal(vat.ttl('foo'), 60);
 
       vat.persist('foo');
-      test.equal(vat.ttl('foo'), undefined);
+      test.equal(vat.ttl('foo'), -1);
 
       vat.die();
       test.done();
@@ -258,5 +258,39 @@ this.methodSuite = {
       vat.die();
       test.done();
 
-    }    
+    },
+    'Invoke `expire` method and report value after key expires': function(test) {
+
+      var vat = EventVat();
+
+      vat.set('foo', 'bar');
+      vat.expire('foo', 1);
+
+      test.equal(vat.get('foo'), 'bar');
+      test.equal(vat.ttl('foo'), 1);
+
+      vat.on('del foo', function() {
+        test.equal(vat.get('foo'), false);
+        test.equal(vat.ttl('foo'), -1);
+        vat.die();
+        test.done();
+      });
+    },
+    'Invoke `expireat` method and report value after key expires': function(test) {
+
+      var vat = EventVat();
+
+      vat.set('foo', 'bar');
+      vat.expireat('foo', ~~(new Date() / 1000) + 1);
+
+      test.equal(vat.get('foo'), 'bar');
+      test.equal(vat.ttl('foo'), 1);
+
+      vat.on('del foo', function() {
+        test.equal(vat.get('foo'), false);
+        test.equal(vat.ttl('foo'), -1);
+        vat.die();
+        test.done();
+      });
+    }
 };
