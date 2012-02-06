@@ -713,5 +713,36 @@ module.exports = simpleEvents({
     test.expect(1);
 
   },
+  '41. Raise event on `setrange` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('setrange', function(key, value) {
+      test.equal(key, 'foo');
+      test.equal(value, 'hello redis!');
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'hello world!');
+    vat.setrange('foo', 6, 'redis');
+    test.expect(2);
+
+  },
+  '42. Raise event on `setrange` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('setrange foo', function(value) {
+      test.equal(value, 'hello redis!');
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'hello world!');
+    vat.setrange('foo', 6, 'redis');
+    test.expect(1);
+
+  },
 
 });
