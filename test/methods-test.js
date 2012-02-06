@@ -281,7 +281,7 @@ this.methodSuite = {
       var vat = EventVat();
 
       vat.set('foo', 'bar');
-      vat.expireat('foo', ~~(new Date() / 1000) + 1);
+      vat.expireat('foo', Math.round(new Date() / 1000) + 1);
 
       test.equal(vat.get('foo'), 'bar');
       test.equal(vat.ttl('foo'), 1);
