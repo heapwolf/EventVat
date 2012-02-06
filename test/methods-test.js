@@ -1,6 +1,35 @@
 var EventVat = require('../lib/eventvat');
 
+var origTimeout = setTimeout;
 this.methodSuite = {
+    setUp: function(test) {
+
+      setTimeout = function(fn, ms) {
+        return origTimeout(fn, 0);
+      };
+
+      if (typeof test === 'function') {
+        test();
+      }
+      else {
+        test.done();
+      }
+
+    },
+
+    tearDown: function(test) {
+
+      setTimeout = origTimeout;
+
+      if (typeof test === 'function') {
+        test();
+      }
+      else {
+        test.done();
+      }
+
+    },
+
     'Invoke `get` method and return value': function (test) {
 
       var vat = EventVat();
