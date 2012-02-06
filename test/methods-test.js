@@ -364,4 +364,59 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `mset` method and report values': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.get('a'), false);
+      test.equal(vat.get('b'), false);
+      test.equal(vat.get('c'), false);
+
+      vat.mset('a', 1, 'b', 2, 'c', 3);
+
+      test.equal(vat.get('a'), 1);
+      test.equal(vat.get('b'), 2);
+      test.equal(vat.get('c'), 3);
+
+      vat.die();
+      test.done();
+    },
+    'Invoke `msetnx` method': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.get('a'), false);
+      test.equal(vat.get('b'), false);
+      test.equal(vat.get('c'), false);
+
+      vat.set('foo', 'bar');
+      test.equal(vat.msetnx('a', 1, 'b', 2, 'c', 3), true);
+
+      test.equal(vat.get('a'), 1);
+      test.equal(vat.get('b'), 2);
+      test.equal(vat.get('c'), 3);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `msetnx` method with a key that already exists': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.get('a'), false);
+      test.equal(vat.get('b'), false);
+      test.equal(vat.get('c'), false);
+
+      vat.set('b', 'bar');
+      test.equal(vat.msetnx('a', 1, 'b', 2, 'c', 3), false);
+
+      test.equal(vat.get('a'), false);
+      test.equal(vat.get('b'), 'bar');
+      test.equal(vat.get('c'), false);
+
+      vat.die();
+      test.done();
+
+    },
 };

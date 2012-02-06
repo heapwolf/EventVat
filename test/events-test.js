@@ -646,5 +646,41 @@ module.exports = simpleEvents({
     vat.mget('foo', 'bar');
     test.expect(1);
   },
+  '37. Raise event on `mset` method invokataion': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('mset', function(k1, v1, k2, v2, k3, v3) {
+      test.equal(k1, 'a');
+      test.equal(v1, 1);
+      test.equal(k2, 'b');
+      test.equal(v2, 2);
+      test.equal(k3, 'c');
+      test.equal(v3, 3);
+      vat.die();
+      test.done();
+    });
+
+    vat.mset('a', 1, 'b', 2, 'c', 3);
+    test.expect(6);
+  },
+  '38. Raise event on `msetnx` method invokataion': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('msetnx', function(k1, v1, k2, v2, k3, v3) {
+      test.equal(k1, 'a');
+      test.equal(v1, 1);
+      test.equal(k2, 'b');
+      test.equal(v2, 2);
+      test.equal(k3, 'c');
+      test.equal(v3, 3);
+      vat.die();
+      test.done();
+    });
+
+    vat.msetnx('a', 1, 'b', 2, 'c', 3);
+    test.expect(6);
+  }
 
 });
