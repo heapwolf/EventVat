@@ -600,5 +600,36 @@ module.exports = simpleEvents({
     vat.randomkey();
     test.expect(1);
   },
+  '34. Raise event on `getrange` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('getrange', function(key, value) {
+      test.equal(key, 'foo');
+      test.equal(value, 'world');
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'hello world!');
+    vat.getrange('foo', 6, 11);
+    test.expect(2);
+
+  },
+  '35. Raise event on `getrange` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('getrange foo', function(value) {
+      test.equal(value, 'world');
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'hello world!');
+    vat.getrange('foo', 6, 11);
+    test.expect(1);
+
+  },
 
 });

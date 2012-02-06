@@ -341,4 +341,15 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `getrange` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.set('foo', 'hello world!');
+      test.equal(vat.getrange('foo', 6, 11), 'world');
+
+      vat.die();
+      test.done();
+
+    },
 };
