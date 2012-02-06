@@ -681,6 +681,37 @@ module.exports = simpleEvents({
 
     vat.msetnx('a', 1, 'b', 2, 'c', 3);
     test.expect(6);
-  }
+  },
+  '39. Raise event on `strlen` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('strlen', function(key, l) {
+      test.equal(key, 'foo');
+      test.equal(l, 12);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'hello world!');
+    vat.strlen('foo');
+    test.expect(2);
+
+  },
+  '40. Raise event on `strlen` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('strlen foo', function(l) {
+      test.equal(l, 12);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'hello world!');
+    vat.strlen('foo');
+    test.expect(1);
+
+  },
 
 });

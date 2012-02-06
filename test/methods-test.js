@@ -419,4 +419,15 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `strlen` method': function(test) {
+
+      var vat = EventVat();
+
+      vat.set('foo', 'hello world!')
+      test.equal(vat.strlen('foo'), 12);
+
+      vat.die();
+      test.done();
+
+    },
 };
