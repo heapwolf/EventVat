@@ -583,5 +583,22 @@ module.exports = simpleEvents({
     test.expect(1);
 
   },
+  '33. Raise vent on `randomkey` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('randomkey', function(key) {
+      test.ok(key === 'a' || key === 'b' || key === 'c');
+      vat.die();
+      test.done();
+    });
+
+    vat.set('a', 1);
+    vat.set('b', 2);
+    vat.set('c', 3);
+
+    vat.randomkey();
+    test.expect(1);
+  },
 
 });

@@ -326,4 +326,19 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `randomkey` method and report key returned': function(test) {
+
+      var vat = EventVat();
+
+      vat.set('a', 1);
+      vat.set('b', 2);
+      vat.set('c', 3);
+
+      var key = vat.randomkey();
+      test.ok(key === 'a' || key === 'b' || key === 'c');
+
+      vat.die();
+      test.done();
+
+    },
 };
