@@ -250,25 +250,25 @@ this.methodSuite = {
       test.done();
 
     },
-    'Invoke `type` method on a key containing a Array value and report the value returned': function (test) {
+    'Invoke `type` method on a key containing a List value and report the value returned': function (test) {
 
       var vat = EventVat();
 
       vat.set('foo', [1, 2, 3]);
 
-      test.equal(vat.type('foo'), 'array');
+      test.equal(vat.type('foo'), 'list');
 
       vat.die();
       test.done();
 
     },
-    'Invoke `type` method on a key containing a Object value and report the value returned': function (test) {
+    'Invoke `type` method on a key containing a Hash value and report the value returned': function (test) {
 
       var vat = EventVat();
 
       vat.set('foo', { hello: 'world' });
 
-      test.equal(vat.type('foo'), 'object');
+      test.equal(vat.type('foo'), 'hash');
 
       vat.die();
       test.done();
