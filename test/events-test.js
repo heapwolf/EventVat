@@ -631,5 +631,20 @@ module.exports = simpleEvents({
     test.expect(1);
 
   },
+  '36. Raise event on `mget` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('mget', function(values) {
+      test.deepEqual(values, ['hello world!', 42]);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'hello world!');
+    vat.set('bar', 42);
+    vat.mget('foo', 'bar');
+    test.expect(1);
+  },
 
 });

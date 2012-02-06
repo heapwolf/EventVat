@@ -352,4 +352,16 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `mget` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.set('foo', 'hello world!');
+      vat.set('bar', 42);
+      test.deepEqual(vat.mget('foo', 'bar'), ['hello world!', 42]);
+
+      vat.die();
+      test.done();
+
+    },
 };
