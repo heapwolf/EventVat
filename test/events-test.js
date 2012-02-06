@@ -550,5 +550,38 @@ module.exports = simpleEvents({
     test.expect(2);
 
   },
+  '31. Raise event on `move` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+    var vat2 = EventVat();
+
+    vat.on('move', function(key, db) {
+      test.equal(key, 'foo');
+      test.equal(db, vat2);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.move('foo', vat2);
+    test.expect(2);
+
+  },
+  '32. Raise event on `move` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+    var vat2 = EventVat();
+
+    vat.on('move foo', function(db) {
+      test.equal(db, vat2);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 'bar');
+    vat.move('foo', vat2);
+    test.expect(1);
+
+  },
 
 });

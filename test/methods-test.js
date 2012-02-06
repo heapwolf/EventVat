@@ -306,5 +306,24 @@ this.methodSuite = {
       vat.die();
       test.done();
 
-    }
+    },
+    'Invoke `move` method and report keys in both databases before and after': function(test) {
+
+      var vat = EventVat();
+      var vat2 = EventVat();
+
+      vat.set('foo', 42);
+
+      test.equal(vat.get('foo'), 42);
+      test.equal(vat2.get('foo'), false);
+
+      vat.move('foo', vat2);
+
+      test.equal(vat.get('foo'), false);
+      test.equal(vat2.get('foo'), 42);
+
+      vat.die();
+      test.done();
+
+    },
 };
