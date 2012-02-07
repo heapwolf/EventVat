@@ -764,4 +764,17 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `llen` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('mylist', 'one');
+      vat.rpush('mylist', 'two');
+      vat.rpush('mylist', 'three');
+      test.equal(vat.llen('mylist'), 3);
+
+      vat.die();
+      test.done();
+
+    },
 };

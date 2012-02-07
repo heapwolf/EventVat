@@ -1041,5 +1041,28 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `llen` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('llen', function(key, len) {
+      test.equal(key, 'mylist');
+      test.equal(len, 3);
+    });
+
+    vat.on('llen mylist', function(len) {
+      test.equal(len, 3);
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.rpush('mylist', 'three');
+    vat.llen('mylist');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+
+  },
 
 });
