@@ -968,5 +968,78 @@ module.exports = simpleEvents({
     vat.die();
     test.done();
   },
+  'Raise event on `rpush` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.once('rpush', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'one');
+      vat.once('rpush', function(key, value) {
+        test.equal(key, 'mylist');
+        test.equal(value, 'two');
+      });
+    });
+
+    vat.once('rpush mylist', function(value) {
+      test.equal(value, 'one');
+      vat.once('rpush mylist', function(value) {
+        test.equal(value, 'two');
+      });
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+
+    test.expect(6);
+    vat.die();
+    test.done();
+  },
+  'Raise event on `lset` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lset', function(key, index, value) {
+      test.equal(key, 'mylist');
+      test.equal(index, 0);
+      test.equal(value, 'one');
+    });
+
+    vat.on('lset mylist', function(index, value) {
+      test.equal(index, 0);
+      test.equal(value, 'one');
+    });
+
+    vat.rpush('mylist', 'foo');
+    vat.lset('mylist', 0, 'one');
+
+    test.expect(5);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `lindex` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lindex', function(key, index, value) {
+      test.equal(key, 'mylist');
+      test.equal(index, 0);
+      test.equal(value, 'one');
+    });
+
+    vat.on('lindex mylist', function(index, value) {
+      test.equal(index, 0);
+      test.equal(value, 'one');
+    });
+
+    vat.rpush('mylist', 'foo');
+    vat.lindex('mylist', 0);
+
+    test.expect(5);
+    vat.die();
+    test.done();
+
+  },
 
 });

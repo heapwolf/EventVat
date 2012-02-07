@@ -726,4 +726,42 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `rpush` method and report return value and stored values': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.rpush('mylist', 'one'), 1);
+      test.equal(vat.rpush('mylist', 'two'), 2);
+      test.equal(vat.lindex('mylist', 0), 'one');
+      test.equal(vat.lindex('mylist', 1), 'two');
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `lset` method and report return value and stored values': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.rpush('mylist', 'one'), 1);
+      test.equal(vat.rpush('mylist', 'two'), 2);
+      test.equal(vat.rpush('mylist', 'three'), 3);
+
+      test.equal(vat.lindex('mylist', 0), 'one');
+      test.equal(vat.lindex('mylist', 0), 'two');
+      test.equal(vat.lindex('mylist', 0), 'three');
+
+      test.ok(vat.lset('mylist', 0, 'four'));
+      test.ok(vat.lset('mylist', -2, 'five'));
+      test.ok(!vat.lset('mylist', 4, 'six'));
+      test.ok(!vat.lset('mylist', -4, 'seven'));
+
+      test.equal(vat.lindex('mylist', 0), 'four');
+      test.equal(vat.lindex('mylist', 0), 'five');
+      test.equal(vat.lindex('mylist', 0), 'three');
+
+      vat.die();
+      test.done();
+
+    },
 };
