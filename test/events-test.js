@@ -118,14 +118,25 @@ module.exports = simpleEvents({
       test.equal(newValue, 2);
     });
 
+    vat.on('decrby', function(key, value, newValue) {
+      test.equal(key, 'foo');
+      test.equal(value, 1);
+      test.equal(newValue, 2);
+    });
+
     vat.on('decr foo', function(newValue) {
+      test.equal(newValue, 2);
+    });
+
+    vat.on('decrby foo', function(value, newValue) {
+      test.equal(value, 1);
       test.equal(newValue, 2);
     });
 
     vat.set('foo', 3);
     vat.decr('foo');
 
-    test.expect(3);
+    test.expect(8);
     vat.die();
     test.done();
 
@@ -139,14 +150,25 @@ module.exports = simpleEvents({
       test.equal(newValue, 4);
     });
 
+    vat.on('incrby', function(key, value, newValue) {
+      test.equal(key, 'foo');
+      test.equal(value, 1);
+      test.equal(newValue, 4);
+    });
+
     vat.on('incr foo', function(newValue) {
+      test.equal(newValue, 4);
+    });
+
+    vat.on('incrby foo', function(value, newValue) {
+      test.equal(value, 1);
       test.equal(newValue, 4);
     });
 
     vat.set('foo', 3);
     vat.incr('foo');
 
-    test.expect(3);
+    test.expect(8);
     vat.die();
     test.done();
 
