@@ -1108,5 +1108,26 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `lpop` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lpop', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'one');
+    });
+
+    vat.on('lpop mylist', function(value) {
+      test.equal(value, 'one');
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.lpop('mylist');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+  },
 
 });
