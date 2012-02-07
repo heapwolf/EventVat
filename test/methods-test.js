@@ -937,4 +937,20 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `lrange` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'three');
+      vat.rpush('list', 'four');
+
+      test.deepEqual(vat.lrange('list', 2, 4), ['three', 'four']);
+      test.deepEqual(vat.lrange('list2', 0, 3), []);
+
+      vat.die();
+      test.done();
+
+    },
 };

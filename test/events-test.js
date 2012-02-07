@@ -1220,5 +1220,33 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `lrange` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lrange', function(key, start, stop, range) {
+      test.equal(key, 'list');
+      test.equal(start, 2);
+      test.equal(stop, 4);
+      test.deepEqual(range, ['three', 'four']);
+    });
+
+    vat.on('lrange list', function(start, stop, range) {
+      test.equal(start, 2);
+      test.equal(stop, 4);
+      test.deepEqual(range, ['three', 'four']);
+    });
+
+    vat.rpush('list', 'one');
+    vat.rpush('list', 'two');
+    vat.rpush('list', 'three');
+    vat.rpush('list', 'four');
+    vat.lrange('list', 2, 4);
+
+    test.expect(7);
+    vat.die();
+    test.done();
+
+  },
 
 });
