@@ -744,5 +744,69 @@ module.exports = simpleEvents({
     test.expect(1);
 
   },
+  '43. Raise event on `hset` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hset', function(key, field, value) {
+      test.equal(key, 'hash');
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    test.expect(3);
+
+  },
+  '44. Raise event on `hset` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hset hash', function(field, value) {
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    test.expect(2);
+
+  },
+  '45. Raise event on `hset` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hget', function(key, field, value) {
+      test.equal(key, 'hash');
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    vat.hget('hash', 'a');
+    test.expect(3);
+
+  },
+  '46. Raise event on `hset` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hget hash', function(field, value) {
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    vat.hget('hash', 'a');
+    test.expect(2);
+
+  },
 
 });

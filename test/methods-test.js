@@ -478,4 +478,19 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hset` method and report `hget` value before and after': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.hget('foo', 'a'), false);
+      vat.hset('foo', 'a', 'hello');
+      test.equal(vat.hget('foo', 'a'), 'hello');
+
+      test.equal(vat.hget('foo', 'b'), false);
+      vat.hset('foo', 'b', 42);
+      test.equal(vat.hget('foo', 'b'), 42);
+
+      vat.die();
+      test.done();
+    },
 };
