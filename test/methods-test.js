@@ -953,4 +953,22 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `ltrim` method and report new length and values stored': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('list', 'one')
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'three');
+      vat.rpush('list', 'four');
+      test.equal(vat.llen('list'), 4);
+
+      vat.ltrim('list', 0, 3);
+      test.equal(vat.llen('list'), 3);
+      test.deepEqual(vat.lrange('list', 0, 100), ['one', 'two', 'three']);
+
+      vat.die();
+      test.done();
+
+    },
 };

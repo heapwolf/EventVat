@@ -1248,5 +1248,31 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `ltrim` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('ltrim', function(key, start, stop) {
+      test.equal(key, 'list');
+      test.equal(start, 0);
+      test.equal(stop, 3);
+    });
+
+    vat.on('ltrim list', function(start, stop) {
+      test.equal(start, 0);
+      test.equal(stop, 3);
+    });
+
+    vat.rpush('list', 'one')
+    vat.rpush('list', 'two');
+    vat.rpush('list', 'three');
+    vat.rpush('list', 'four');
+    vat.ltrim('list', 0, 3);
+
+    test.expect(5);
+    vat.die();
+    test.done();
+
+  },
 
 });
