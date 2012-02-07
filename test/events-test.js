@@ -808,5 +808,38 @@ module.exports = simpleEvents({
     test.expect(2);
 
   },
+  '47. Raise event on `hexists` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hexists', function(key, field, value) {
+      test.equal(key, 'hash');
+      test.equal(field, 'a');
+      test.equal(value, true);
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    vat.hexists('hash', 'a');
+    test.expect(3);
+
+  },
+  '48. Raise event on `hexists` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hexists hash', function(field, value) {
+      test.equal(field, 'a');
+      test.equal(value, true);
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    vat.hexists('hash', 'a');
+    test.expect(2);
+
+  },
 
 });

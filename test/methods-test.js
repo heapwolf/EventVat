@@ -493,4 +493,16 @@ this.methodSuite = {
       vat.die();
       test.done();
     },
+    'Invoke `hexists` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.hexists('foo', 'a'), false);
+      vat.hset('foo', 'a', 'hello');
+      test.equal(vat.hexists('foo', 'a'), true);
+      test.equal(vat.hexists('foo', 'b'), false);
+
+      vat.die();
+      test.done();
+    },
 };
