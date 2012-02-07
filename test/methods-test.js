@@ -642,4 +642,30 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hlen` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.hset('foo', 'a', 1);
+      vat.hset('foo', 'b', 2);
+      vat.hset('foo', 'c', 3);
+      test.deepEqual(vat.hlen('foo'), 3);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `hvals` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.hset('foo', 'a', 1);
+      vat.hset('foo', 'b', 2);
+      vat.hset('foo', 'c', 3);
+      test.deepEqual(vat.hvals('foo'), [1, 2, 3]);
+
+      vat.die();
+      test.done();
+
+    },
 };

@@ -760,5 +760,49 @@ module.exports = simpleEvents({
     vat.die();
     test.done();
   },
+  'Raise event on `hlen` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hlen', function(key, len) {
+      test.equal(key, 'foo');
+      test.equal(len, 3);
+    });
+
+    vat.on('hlen foo', function(len) {
+      test.equal(len, 3);
+    });
+
+    vat.hset('foo', 'a', 1);
+    vat.hset('foo', 'b', 2);
+    vat.hset('foo', 'c', 3);
+    vat.hlen('foo');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+  },
+  'Raise event on `hvals` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hvals', function(key, values) {
+      test.equal(key, 'foo');
+      test.deepEqual(values, [1, 2, 3]);
+    });
+
+    vat.on('hvals foo', function(values) {
+      test.deepEqual(values, [1, 2, 3]);
+    });
+
+    vat.hset('foo', 'a', 1);
+    vat.hset('foo', 'b', 2);
+    vat.hset('foo', 'c', 3);
+    vat.hvals('foo');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+  },
 
 });
