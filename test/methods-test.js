@@ -56,7 +56,7 @@ this.methodSuite = {
       var vat = EventVat();
 
       vat.set('a', 123);
-      vat.setnx('a', 'hi');
+      test.equal(vat.setnx('a', 'hi'), false);
       test.equal(vat.get('a'), 123);
 
       vat.die();
@@ -67,7 +67,7 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      vat.setnx('a', 'hi');
+      test.equal(vat.setnx('a', 'hi'), true);;
       test.equal(vat.get('a'), 'hi');
 
       vat.die();
