@@ -1193,5 +1193,32 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `lrem` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lrem', function(key, count, value, n) {
+      test.equal(key, 'mylist');
+      test.equal(count, 0);
+      test.equal(value, 'two');
+      test.equal(n, 1);
+    });
+
+    vat.on('lrem mylist', function(count, value, n) {
+      test.equal(count, 0);
+      test.equal(value, 'two');
+      test.equal(n, 1);
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.rpush('mylist', 'three');
+    vat.lrem('mylist', 0, 'two');
+
+    test.expect(7);
+    vat.die();
+    test.done();
+
+  },
 
 });

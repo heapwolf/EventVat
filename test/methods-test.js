@@ -865,4 +865,76 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `lrem` method with positive count and report return and stored values': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'three');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      test.equal(vat.llen('list'), 8);
+      
+      test.equal(vat.lrem('list', 3, 'one'), 3);
+      test.equal(vat.llen('list'), 5);
+
+      test.equal(vat.lrem('list', 2, 'three'), 1);
+      test.equal(vat.llen('list'), 4);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `lrem` method with negative count and report return and stored values': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'three');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      test.equal(vat.llen('list'), 8);
+      
+      test.equal(vat.lrem('list', -3, 'one'), 3);
+      test.equal(vat.llen('list'), 5);
+
+      test.equal(vat.lrem('list', -2, 'three'), 1);
+      test.equal(vat.llen('list'), 4);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `lrem` method with 0 count and report return and stored values': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'two');
+      vat.rpush('list', 'three');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      vat.rpush('list', 'one');
+      test.equal(vat.llen('list'), 8);
+      
+      test.equal(vat.lrem('list', 0, 'one'), 5);
+      test.equal(vat.llen('list'), 3);
+
+      test.equal(vat.lrem('list', 0, 'three'), 1);
+      test.equal(vat.llen('list'), 2);
+
+      vat.die();
+      test.done();
+
+    },
 };
