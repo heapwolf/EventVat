@@ -166,9 +166,8 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.on('decr', function(key, value, newValue) {
+    vat.on('decr', function(key, newValue) {
       test.equal(key, 'foo');
-      test.equal(value, 1);
       test.equal(newValue, 2);
       vat.die();
       test.done();
@@ -176,15 +175,14 @@ module.exports = simpleEvents({
 
     vat.set('foo', 3);
     vat.decr('foo');
-    test.expect(3);
+    test.expect(2);
 
   },    
   '10. Raise event on `decr` method invokation for a particular key': function (test) {
 
     var vat = EventVat();
 
-    vat.on('decr foo', function(value, newValue) {
-      test.equal(value, 1);
+    vat.on('decr foo', function(newValue) {
       test.equal(newValue, 2);
       vat.die();
       test.done();
@@ -192,32 +190,15 @@ module.exports = simpleEvents({
 
     vat.set('foo', 3);
     vat.decr('foo');
-    test.expect(2);
+    test.expect(1);
 
   },    
   '11. Raise event on `incr` method invokation for any key': function (test) {
 
     var vat = EventVat();
 
-    vat.on('incr', function(key, value, newValue) {
+    vat.on('incr', function(key, newValue) {
       test.equal(key, 'foo');
-      test.equal(value, 1);
-      test.equal(newValue, 4);
-      vat.die();
-      test.done();
-    });
-
-    vat.set('foo', 3);
-    vat.incr('foo');
-    test.expect(3);
-
-  },
-  '12. Raise event on `incr` method invokation for a particular key': function (test) {
-
-    var vat = EventVat();
-
-    vat.on('incr foo', function(value, newValue) {
-      test.equal(value, 1);
       test.equal(newValue, 4);
       vat.die();
       test.done();
@@ -226,6 +207,21 @@ module.exports = simpleEvents({
     vat.set('foo', 3);
     vat.incr('foo');
     test.expect(2);
+
+  },
+  '12. Raise event on `incr` method invokation for a particular key': function (test) {
+
+    var vat = EventVat();
+
+    vat.on('incr foo', function(newValue) {
+      test.equal(newValue, 4);
+      vat.die();
+      test.done();
+    });
+
+    vat.set('foo', 3);
+    vat.incr('foo');
+    test.expect(1);
 
   },
   '13. Raise event on `swap` method invokation for any key': function (test) {

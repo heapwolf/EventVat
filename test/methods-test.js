@@ -94,7 +94,7 @@ this.methodSuite = {
       vat.set('a', 5);
       test.equal(vat.get('a'), 5);
 
-      vat.decr('a');
+      test.equal(vat.decr('a'), 4);
       test.equal(vat.get('a'), 4);
 
       test.equal(vat.get('b'), false);
@@ -118,6 +118,42 @@ this.methodSuite = {
       test.equal(vat.get('b'), false);
       test.equal(vat.incr('b'), 1);
       test.equal(vat.get('b'), 1);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `decrby` method and report new value before and after': function (test) {
+
+      var vat = EventVat();
+
+      vat.set('a', 5);
+      test.equal(vat.get('a'), 5);
+
+      test.equal(vat.decrby('a', 3), 2);
+      test.equal(vat.get('a'), 2);
+
+      test.equal(vat.get('b'), false);
+      test.equal(vat.decrby('b', 2), -2);
+      test.equal(vat.get('b'), -2);
+
+      vat.die();
+      test.done();
+
+    },    
+    'Invoke `incrby` method and report new value before and after': function (test) {
+
+      var vat = EventVat();
+
+      vat.set('a', 5);
+      test.equal(vat.get('a'), 5);
+
+      test.equal(vat.incrby('a', 4), 9);
+      test.equal(vat.get('a'), 9);
+
+      test.equal(vat.get('b'), false);
+      test.equal(vat.incrby('b', 42), 42);
+      test.equal(vat.get('b'), 42);
 
       vat.die();
       test.done();
