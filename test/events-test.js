@@ -1165,12 +1165,30 @@ module.exports = simpleEvents({
       test.equal(value, 'two');
     });
 
+    vat.on('rpop', function(source, value) {
+      test.equal(source, 'mylist');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpop mylist', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.on('lpush', function(destination, value) {
+      test.equal(destination, 'mylist2');
+      test.equal(value, 'two');
+    });
+
+    vat.on('lpush mylist2', function(value) {
+      test.equal(value, 'two');
+    });
+
     vat.rpush('mylist', 'one');
     vat.rpush('mylist', 'two');
     vat.rpush('mylist2', 'three');
     vat.rpoplpush('mylist', 'mylist2');
 
-    test.expect(5);
+    test.expect(11);
     vat.die();
     test.done();
 
