@@ -841,5 +841,36 @@ module.exports = simpleEvents({
     test.expect(2);
 
   },
+  '49. Raise event on `hdel` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hdel', function(key, field) {
+      test.equal(key, 'hash');
+      test.equal(field, 'a');
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    vat.hdel('hash', 'a');
+    test.expect(2);
+
+  },
+  '50. Raise event on `hdel` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hdel hash', function(field) {
+      test.equal(field, 'a');
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('hash', 'a', 1);
+    vat.hdel('hash', 'a');
+    test.expect(1);
+
+  },
 
 });

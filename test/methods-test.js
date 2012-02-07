@@ -505,4 +505,29 @@ this.methodSuite = {
       vat.die();
       test.done();
     },
+    'Invoke `hdel` method and report values before and after': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hget('foo', 'b'), false);
+      test.equal(vat.hget('foo', 'c'), false);
+
+      vat.hset('foo', 'a', 1);
+      vat.hset('foo', 'b', 2);
+      vat.hset('foo', 'c', 3);
+
+      test.equal(vat.hget('foo', 'a'), 1);
+      test.equal(vat.hget('foo', 'b'), 2);
+      test.equal(vat.hget('foo', 'c'), 3);
+
+      vat.hdel('foo', 'a', 'b');
+      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hget('foo', 'b'), false);
+      test.equal(vat.hget('foo', 'c'), 3);
+
+      vat.die();
+      test.done();
+
+    },
 };
