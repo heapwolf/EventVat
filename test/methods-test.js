@@ -824,4 +824,21 @@ this.methodSuite = {
       vat.die();
       test.done();
     },
+    'Invoke `rpop` method and report return value and stored values': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('mylist', 'one');
+      vat.rpush('mylist', 'two');
+
+      test.equal(vat.lindex('mylist', 0), 'one');
+      test.equal(vat.lindex('mylist', 1), 'two');
+      test.equal(vat.rpop('mylist'), 'two');
+
+      test.equal(vat.lindex('mylist', 0), 'one');
+      test.equal(vat.lindex('mylist', 1), false);
+
+      vat.die();
+      test.done();
+    },
 };
