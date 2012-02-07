@@ -827,5 +827,28 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `hmget` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hmget', function(key, values) {
+      test.equal(key, 'foo');
+      test.deepEqual(values, [1, 2, false]);
+    });
+
+    vat.on('hmget foo', function(values) {
+      test.deepEqual(values, [1, 2, false]);
+    });
+
+    vat.hset('foo', 'a', 1);
+    vat.hset('foo', 'b', 2);
+    vat.hset('foo', 'c', 3);
+    vat.hmget('foo', 'a', 'b', 'd');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+
+  },
 
 });

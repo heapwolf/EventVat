@@ -683,4 +683,17 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hmget` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.hset('foo', 'a', 1);
+      vat.hset('foo', 'b', 2);
+      vat.hset('foo', 'c', 3);
+      test.deepEqual(vat.hmget('foo', 'a', 'b', 'd'), [1, 2, false]);
+
+      vat.die();
+      test.done();
+
+    },
 };
