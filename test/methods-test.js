@@ -696,4 +696,21 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hmset` method and report values before and after': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hget('foo', 'b'), false);
+      test.equal(vat.hget('foo', 'c'), false);
+
+      test.ok(vat.hmset('foo', 'a', 1, 'b', 2, 'c', 3));
+
+      test.equal(vat.hget('foo', 'a'), 1);
+      test.equal(vat.hget('foo', 'b'), 2);
+      test.equal(vat.hget('foo', 'c'), 3);
+
+      vat.die();
+      test.done();
+    },
 };

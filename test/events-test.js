@@ -850,5 +850,68 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `hmset` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hmset', function(key, f1, v1, f2, v2, f3, v3) {
+      test.equal(key, 'foo');
+      test.equal(f1, 'a');
+      test.equal(v1, 1);
+      test.equal(f2, 'b');
+      test.equal(v2, 2);
+      test.equal(f3, 'c');
+      test.equal(v3, 3);
+    });
+
+    vat.on('hmset foo', function(f1, v1, f2, v2, f3, v3) {
+      test.equal(f1, 'a');
+      test.equal(v1, 1);
+      test.equal(f2, 'b');
+      test.equal(v2, 2);
+      test.equal(f3, 'c');
+      test.equal(v3, 3);
+    });
+
+    vat.once('hset', function(key, field, value) {
+      test.equal(key, 'foo');
+      test.equal(field, 'a');
+      test.equal(value, 1);
+
+      vat.once('hset', function(key, field, value) {
+        test.equal(key, 'foo');
+        test.equal(field, 'b');
+        test.equal(value, 2);
+
+        vat.once('hset', function(key, field, value) {
+          test.equal(key, 'foo');
+          test.equal(field, 'c');
+          test.equal(value, 3);
+        });
+      });
+    });
+
+    vat.once('hset foo', function(field, value) {
+      test.equal(field, 'a');
+      test.equal(value, 1);
+
+      vat.once('hset foo', function(field, value) {
+        test.equal(field, 'b');
+        test.equal(value, 2);
+
+        vat.once('hset foo', function(field, value) {
+          test.equal(field, 'c');
+          test.equal(value, 3);
+        });
+      });
+    });
+
+    vat.hmset('foo', 'a', 1, 'b', 2, 'c', 3);
+
+    test.expect(28);
+    vat.die();
+    test.done();
+
+  },
 
 });
