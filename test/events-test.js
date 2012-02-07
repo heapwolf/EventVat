@@ -868,5 +868,40 @@ module.exports = simpleEvents({
     test.expect(1);
 
   },
+  '51. Raise event on `hgetall` method invokation for any key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hgetall', function(key, hash) {
+      test.equal(key, 'bob');
+      test.deepEqual(hash, { foo: 'bar', hello: 'world', answer: 42 });
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('bob', 'foo', 'bar');
+    vat.hset('bob', 'hello', 'world');
+    vat.hset('bob', 'answer', 42);
+    vat.hgetall('bob');
+
+    test.expect(2);
+  },
+  '52. Raise event on `hgetall` method invokation for a particular key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hgetall bob', function(hash) {
+      test.deepEqual(hash, { foo: 'bar', hello: 'world', answer: 42 });
+      vat.die();
+      test.done();
+    });
+
+    vat.hset('bob', 'foo', 'bar');
+    vat.hset('bob', 'hello', 'world');
+    vat.hset('bob', 'answer', 42);
+    vat.hgetall('bob');
+
+    test.expect(1);
+  },
 
 });

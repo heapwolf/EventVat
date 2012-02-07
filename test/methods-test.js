@@ -566,4 +566,17 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hgetall` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.hset('bob', 'foo', 'bar');
+      vat.hset('bob', 'hello', 'world');
+      vat.hset('bob', 'answer', 42);
+      test.deepEqual(vat.hgetall('bob'), { foo: 'bar', hello: 'world', answer: 42 });
+
+      vat.die();
+      test.done();
+
+    },
 };
