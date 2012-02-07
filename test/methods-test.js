@@ -97,6 +97,10 @@ this.methodSuite = {
       vat.decr('a');
       test.equal(vat.get('a'), 4);
 
+      test.equal(vat.get('b'), false);
+      test.equal(vat.decr('b'), -1);
+      test.equal(vat.get('b'), -1);
+
       vat.die();
       test.done();
 
@@ -110,6 +114,10 @@ this.methodSuite = {
 
       vat.incr('a');
       test.equal(vat.get('a'), 6);
+
+      test.equal(vat.get('b'), false);
+      test.equal(vat.incr('b'), 1);
+      test.equal(vat.get('b'), 1);
 
       vat.die();
       test.done();
