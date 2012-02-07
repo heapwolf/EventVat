@@ -738,5 +738,27 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `hkeys` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hkeys', function(key, fields) {
+      test.equal(key, 'foo');
+      test.deepEqual(fields, ['a', 'b', 'c']);
+    });
+
+    vat.on('hkeys foo', function(fields) {
+      test.deepEqual(fields, ['a', 'b', 'c']);
+    });
+
+    vat.hset('foo', 'a', 1);
+    vat.hset('foo', 'b', 2);
+    vat.hset('foo', 'c', 3);
+    vat.hkeys('foo');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+  },
 
 });

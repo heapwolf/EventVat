@@ -629,4 +629,17 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hkeys` method and return value': function(test) {
+
+      var vat = EventVat();
+
+      vat.hset('foo', 'a', 1);
+      vat.hset('foo', 'b', 2);
+      vat.hset('foo', 'c', 3);
+      test.deepEqual(vat.hkeys('foo'), ['a', 'b', 'c']);
+
+      vat.die();
+      test.done();
+
+    },
 };
