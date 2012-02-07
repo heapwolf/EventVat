@@ -1150,5 +1150,30 @@ module.exports = simpleEvents({
     vat.die();
     test.done();
   },
+  'Raise event on `rpoplpush` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('rpoplpush', function(source, destination, value) {
+      test.equal(source, 'mylist');
+      test.equal(destination, 'mylist2');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpoplpush mylist', function(destination, value) {
+      test.equal(destination, 'mylist2');
+      test.equal(value, 'two');
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.rpush('mylist2', 'three');
+    vat.rpoplpush('mylist', 'mylist2');
+
+    test.expect(5);
+    vat.die();
+    test.done();
+
+  },
 
 });
