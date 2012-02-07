@@ -792,4 +792,19 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `rpushx` method and report return value and stored value': function(test) {
+
+      var vat = EventVat();
+
+      vat.rpush('mylist', 'one');
+      test.equal(vat.rpushx('mylist', 'two'), 2);
+      test.equal(vat.lindex('mylist', 1), 'two');
+
+      test.equal(vat.rpushx('myotherlist', 'three'), 0);
+      test.equal(vat.llen('myotherlist'), false);
+
+      vat.die();
+      test.done();
+
+    },
 };

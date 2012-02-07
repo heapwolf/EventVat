@@ -1086,5 +1086,27 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `rpushx` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('rpushx', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpushx mylist', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpushx('mylist', 'two');
+    vat.rpushx('myotherlist', 'three');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+
+  },
 
 });
