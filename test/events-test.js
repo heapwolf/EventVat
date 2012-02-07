@@ -1025,12 +1025,12 @@ module.exports = simpleEvents({
     vat.on('lindex', function(key, index, value) {
       test.equal(key, 'mylist');
       test.equal(index, 0);
-      test.equal(value, 'one');
+      test.equal(value, 'foo');
     });
 
     vat.on('lindex mylist', function(index, value) {
       test.equal(index, 0);
-      test.equal(value, 'one');
+      test.equal(value, 'foo');
     });
 
     vat.rpush('mylist', 'foo');

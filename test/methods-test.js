@@ -739,7 +739,7 @@ this.methodSuite = {
       test.done();
 
     },
-    'Invoke `lset` method and report return value and stored values': function(test) {
+    'Invoke `lset` and `lindex` methods and report return value and stored values': function(test) {
 
       var vat = EventVat();
 
@@ -748,8 +748,8 @@ this.methodSuite = {
       test.equal(vat.rpush('mylist', 'three'), 3);
 
       test.equal(vat.lindex('mylist', 0), 'one');
-      test.equal(vat.lindex('mylist', 0), 'two');
-      test.equal(vat.lindex('mylist', 0), 'three');
+      test.equal(vat.lindex('mylist', 1), 'two');
+      test.equal(vat.lindex('mylist', 2), 'three');
 
       test.ok(vat.lset('mylist', 0, 'four'));
       test.ok(vat.lset('mylist', -2, 'five'));
@@ -757,8 +757,8 @@ this.methodSuite = {
       test.ok(!vat.lset('mylist', -4, 'seven'));
 
       test.equal(vat.lindex('mylist', 0), 'four');
-      test.equal(vat.lindex('mylist', 0), 'five');
-      test.equal(vat.lindex('mylist', 0), 'three');
+      test.equal(vat.lindex('mylist', 1), 'five');
+      test.equal(vat.lindex('mylist', 2), 'three');
 
       vat.die();
       test.done();
