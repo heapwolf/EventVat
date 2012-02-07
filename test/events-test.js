@@ -485,12 +485,40 @@ module.exports = simpleEvents({
       test.equal(v2, 2);
       test.equal(k3, 'c');
       test.equal(v3, 3);
-      vat.die();
-      test.done();
+    });
+
+    vat.once('set', function(key, value) {
+      test.equal(key, 'a');
+      test.equal(value, 1);
+
+      vat.once('set', function(key, value) {
+        test.equal(key, 'b');
+        test.equal(value, 2);
+
+        vat.once('set', function(key, value) {
+          test.equal(key, 'c');
+          test.equal(value, 3);
+        });
+      });
+    });
+
+    vat.once('set a', function(value) {
+      test.equal(value, 1);
+
+      vat.once('set b', function(value) {
+        test.equal(value, 2);
+
+        vat.once('set c', function(value) {
+          test.equal(value, 3);
+        });
+      });
     });
 
     vat.mset('a', 1, 'b', 2, 'c', 3);
-    test.expect(6);
+
+    test.expect(15);
+    vat.die();
+    test.done();
   },
   'Raise event on `msetnx` method invokataion': function(test) {
 
