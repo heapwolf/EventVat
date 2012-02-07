@@ -34,7 +34,7 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.get('a'), false);
+      test.equal(vat.get('a'), null);
       
       vat.die();
       test.done();
@@ -80,7 +80,7 @@ this.methodSuite = {
 
       vat.set('a', 'hello');
       vat.rename('a', 'b');
-      test.equal(vat.get('a'), false);
+      test.equal(vat.get('a'), null);
       test.equal(vat.get('b'), 'hello');
 
       vat.die();
@@ -97,7 +97,7 @@ this.methodSuite = {
       test.equal(vat.decr('a'), 4);
       test.equal(vat.get('a'), 4);
 
-      test.equal(vat.get('b'), false);
+      test.equal(vat.get('b'), null);
       test.equal(vat.decr('b'), -1);
       test.equal(vat.get('b'), -1);
 
@@ -115,7 +115,7 @@ this.methodSuite = {
       vat.incr('a');
       test.equal(vat.get('a'), 6);
 
-      test.equal(vat.get('b'), false);
+      test.equal(vat.get('b'), null);
       test.equal(vat.incr('b'), 1);
       test.equal(vat.get('b'), 1);
 
@@ -133,7 +133,7 @@ this.methodSuite = {
       test.equal(vat.decrby('a', 3), 2);
       test.equal(vat.get('a'), 2);
 
-      test.equal(vat.get('b'), false);
+      test.equal(vat.get('b'), null);
       test.equal(vat.decrby('b', 2), -2);
       test.equal(vat.get('b'), -2);
 
@@ -151,7 +151,7 @@ this.methodSuite = {
       test.equal(vat.incrby('a', 4), 9);
       test.equal(vat.get('a'), 9);
 
-      test.equal(vat.get('b'), false);
+      test.equal(vat.get('b'), null);
       test.equal(vat.incrby('b', 42), 42);
       test.equal(vat.get('b'), 42);
 
@@ -200,8 +200,8 @@ this.methodSuite = {
       test.equal(vat.get('key2'), 'thing');
 
       test.equal(vat.del('foo', 'key2', 'key3'), 2);
-      test.equal(vat.get('foo'), false);
-      test.equal(vat.get('key2'), false);
+      test.equal(vat.get('foo'), null);
+      test.equal(vat.get('key2'), null);
 
       vat.die();
       test.done();
@@ -325,7 +325,7 @@ this.methodSuite = {
       vat.set('foo', 'hello');
       test.equal(vat.get('foo'), 'hello');
 
-      vat.append('foo', ' world!');
+      test.equal(vat.append('foo', ' world!'), 12);
       test.equal(vat.get('foo'), 'hello world!');
 
       vat.die();
@@ -343,7 +343,7 @@ this.methodSuite = {
       test.equal(vat.ttl('foo'), 1);
 
       vat.on('del foo', function() {
-        test.equal(vat.get('foo'), false);
+        test.equal(vat.get('foo'), null);
         test.equal(vat.ttl('foo'), -1);
         vat.die();
         test.done();
@@ -360,7 +360,7 @@ this.methodSuite = {
       test.equal(vat.ttl('foo'), 1);
 
       vat.on('del foo', function() {
-        test.equal(vat.get('foo'), false);
+        test.equal(vat.get('foo'), null);
         test.equal(vat.ttl('foo'), -1);
         vat.die();
         test.done();
@@ -388,11 +388,11 @@ this.methodSuite = {
       vat.set('foo', 42);
 
       test.equal(vat.get('foo'), 42);
-      test.equal(vat2.get('foo'), false);
+      test.equal(vat2.get('foo'), null);
 
       vat.move('foo', vat2);
 
-      test.equal(vat.get('foo'), false);
+      test.equal(vat.get('foo'), null);
       test.equal(vat2.get('foo'), 42);
 
       vat.die();
@@ -441,9 +441,9 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.get('a'), false);
-      test.equal(vat.get('b'), false);
-      test.equal(vat.get('c'), false);
+      test.equal(vat.get('a'), null);
+      test.equal(vat.get('b'), null);
+      test.equal(vat.get('c'), null);
 
       vat.mset('a', 1, 'b', 2, 'c', 3);
 
@@ -458,9 +458,9 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.get('a'), false);
-      test.equal(vat.get('b'), false);
-      test.equal(vat.get('c'), false);
+      test.equal(vat.get('a'), null);
+      test.equal(vat.get('b'), null);
+      test.equal(vat.get('c'), null);
 
       vat.set('foo', 'bar');
       test.equal(vat.msetnx('a', 1, 'b', 2, 'c', 3), true);
@@ -477,16 +477,16 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.get('a'), false);
-      test.equal(vat.get('b'), false);
-      test.equal(vat.get('c'), false);
+      test.equal(vat.get('a'), null);
+      test.equal(vat.get('b'), null);
+      test.equal(vat.get('c'), null);
 
       vat.set('b', 'bar');
       test.equal(vat.msetnx('a', 1, 'b', 2, 'c', 3), false);
 
-      test.equal(vat.get('a'), false);
+      test.equal(vat.get('a'), null);
       test.equal(vat.get('b'), 'bar');
-      test.equal(vat.get('c'), false);
+      test.equal(vat.get('c'), null);
 
       vat.die();
       test.done();
@@ -518,11 +518,11 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hget('foo', 'a'), null);
       vat.hset('foo', 'a', 'hello');
       test.equal(vat.hget('foo', 'a'), 'hello');
 
-      test.equal(vat.hget('foo', 'b'), false);
+      test.equal(vat.hget('foo', 'b'), null);
       vat.hset('foo', 'b', 42);
       test.equal(vat.hget('foo', 'b'), 42);
 
@@ -545,9 +545,9 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.hget('foo', 'a'), false);
-      test.equal(vat.hget('foo', 'b'), false);
-      test.equal(vat.hget('foo', 'c'), false);
+      test.equal(vat.hget('foo', 'a'), null);
+      test.equal(vat.hget('foo', 'b'), null);
+      test.equal(vat.hget('foo', 'c'), null);
 
       vat.hset('foo', 'a', 1);
       vat.hset('foo', 'b', 2);
@@ -558,8 +558,8 @@ this.methodSuite = {
       test.equal(vat.hget('foo', 'c'), 3);
 
       vat.hdel('foo', 'a', 'b');
-      test.equal(vat.hget('foo', 'a'), false);
-      test.equal(vat.hget('foo', 'b'), false);
+      test.equal(vat.hget('foo', 'a'), null);
+      test.equal(vat.hget('foo', 'b'), null);
       test.equal(vat.hget('foo', 'c'), 3);
 
       vat.die();
@@ -583,7 +583,7 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hget('foo', 'a'), null);
       test.equal(vat.hdecr('foo', 'a'), -1);
       test.equal(vat.hget('foo', 'a'), -1);
 
@@ -608,7 +608,7 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hget('foo', 'a'), null);
       test.equal(vat.hincr('foo', 'a'), 1);
       test.equal(vat.hget('foo', 'a'), 1);
 
@@ -672,7 +672,7 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      vat.hget('foo', 'a', false);
+      vat.hget('foo', 'a', null);
       vat.hsetnx('foo', 'a', 42);
       vat.hget('foo', 'a', 42);
 
@@ -690,7 +690,7 @@ this.methodSuite = {
       vat.hset('foo', 'a', 1);
       vat.hset('foo', 'b', 2);
       vat.hset('foo', 'c', 3);
-      test.deepEqual(vat.hmget('foo', 'a', 'b', 'd'), [1, 2, false]);
+      test.deepEqual(vat.hmget('foo', 'a', 'b', 'd'), [1, 2, null]);
 
       vat.die();
       test.done();
@@ -700,9 +700,9 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      test.equal(vat.hget('foo', 'a'), false);
-      test.equal(vat.hget('foo', 'b'), false);
-      test.equal(vat.hget('foo', 'c'), false);
+      test.equal(vat.hget('foo', 'a'), null);
+      test.equal(vat.hget('foo', 'b'), null);
+      test.equal(vat.hget('foo', 'c'), null);
 
       test.ok(vat.hmset('foo', 'a', 1, 'b', 2, 'c', 3));
 
@@ -819,7 +819,7 @@ this.methodSuite = {
       test.equal(vat.lpop('mylist'), 'one');
 
       test.equal(vat.lindex('mylist', 0), 'two');
-      test.equal(vat.lindex('mylist', 1), false);
+      test.equal(vat.lindex('mylist', 1), null);
 
       vat.die();
       test.done();
@@ -836,7 +836,7 @@ this.methodSuite = {
       test.equal(vat.rpop('mylist'), 'two');
 
       test.equal(vat.lindex('mylist', 0), 'one');
-      test.equal(vat.lindex('mylist', 1), false);
+      test.equal(vat.lindex('mylist', 1), null);
 
       vat.die();
       test.done();
@@ -852,12 +852,12 @@ this.methodSuite = {
       test.equal(vat.lindex('mylist', 0), 'one');
       test.equal(vat.lindex('mylist', 1), 'two');
       test.equal(vat.lindex('mylist2', 0), 'three');
-      test.equal(vat.lindex('mylist2', 1), false);
+      test.equal(vat.lindex('mylist2', 1), null);
 
       test.equal(vat.rpoplpush('mylist', 'mylist2'), 'two');
 
       test.equal(vat.lindex('mylist', 0), 'one');
-      test.equal(vat.lindex('mylist', 1), false);
+      test.equal(vat.lindex('mylist', 1), null);
       test.equal(vat.lindex('mylist2', 0), 'two');
       test.equal(vat.lindex('mylist2', 1), 'three');
 

@@ -861,11 +861,11 @@ module.exports = simpleEvents({
 
     vat.on('hmget', function(key, values) {
       test.equal(key, 'foo');
-      test.deepEqual(values, [1, 2, false]);
+      test.deepEqual(values, [1, 2, null]);
     });
 
     vat.on('hmget foo', function(values) {
-      test.deepEqual(values, [1, 2, false]);
+      test.deepEqual(values, [1, 2, null]);
     });
 
     vat.hset('foo', 'a', 1);
