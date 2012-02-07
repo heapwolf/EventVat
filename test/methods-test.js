@@ -668,4 +668,19 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hsetnx` method and report value before and after': function(test) {
+
+      var vat = EventVat();
+
+      vat.hget('foo', 'a', false);
+      vat.hsetnx('foo', 'a', 42);
+      vat.hget('foo', 'a', 42);
+
+      vat.hsetnx('foo', 'a', 'hi');
+      vat.hget('foo', 'a', 42);
+
+      vat.die();
+      test.done();
+
+    },
 };

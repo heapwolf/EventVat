@@ -804,5 +804,28 @@ module.exports = simpleEvents({
     vat.die();
     test.done();
   },
+  'Raise event on `hsetnx` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hsetnx', function(key, field, value) {
+      test.equal(key, 'foo');
+      test.equal(field, 'a');
+      test.equal(value, 42);
+    });
+
+    vat.on('hsetnx foo', function(field, value) {
+      test.equal(field, 'a');
+      test.equal(value, 42);
+    });
+
+    vat.hsetnx('foo', 'a', 42);
+    vat.hsetnx('foo', 'a', 42);
+
+    test.expect(5);
+    vat.die();
+    test.done();
+
+  },
 
 });
