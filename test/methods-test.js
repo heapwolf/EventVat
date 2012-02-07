@@ -579,4 +579,54 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `hdecr` method and repoprt values before and after': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hdecr('foo', 'a'), -1);
+      test.equal(vat.hget('foo', 'a'), -1);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `hdecrby` method and repoprt values before and after': function(test) {
+
+      var vat = EventVat();
+
+      vat.hset('bar', 'a', 5);
+      test.equal(vat.hget('bar', 'a'), 5);
+      test.equal(vat.hdecrby('bar', 'a', 3), 2);
+      test.equal(vat.hget('bar', 'a'), 2);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `hincr` method and repoprt values before and after': function(test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.hget('foo', 'a'), false);
+      test.equal(vat.hincr('foo', 'a'), 1);
+      test.equal(vat.hget('foo', 'a'), 1);
+
+      vat.die();
+      test.done();
+
+    },
+    'Invoke `hincrby` method and repoprt values before and after': function(test) {
+
+      var vat = EventVat();
+
+      vat.hset('bar', 'a', 5);
+      test.equal(vat.hget('bar', 'a'), 5);
+      test.equal(vat.hincrby('bar', 'a', 3), 8);
+      test.equal(vat.hget('bar', 'a'), 8);
+
+      vat.die();
+      test.done();
+
+    },
 };

@@ -666,5 +666,77 @@ module.exports = simpleEvents({
     vat.die();
     test.done();
   },
+  'Raise event on `hdecr` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hdecr', function(key, field, newValue) {
+      test.equal(key, 'foo');
+      test.equal(field, 'a');
+      test.equal(newValue, 1);
+    });
+
+    vat.on('hdecrby', function(key, field, value, newValue) {
+      test.equal(key, 'foo');
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(newValue, 1);
+    });
+
+    vat.on('hdecr foo', function(field, newValue) {
+      test.equal(field, 'a');
+      test.equal(newValue, 1);
+    });
+
+    vat.on('hdecrby foo', function(field, value, newValue) {
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(newValue, 1);
+    });
+
+    vat.hset('foo', 'a', 2);
+    vat.hdecr('foo', 'a');
+
+    test.expect(12);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `hincr` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hincr', function(key, field, newValue) {
+      test.equal(key, 'foo');
+      test.equal(field, 'a');
+      test.equal(newValue, 3);
+    });
+
+    vat.on('hincrby', function(key, field, value, newValue) {
+      test.equal(key, 'foo');
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(newValue, 3);
+    });
+
+    vat.on('hincr foo', function(field, newValue) {
+      test.equal(field, 'a');
+      test.equal(newValue, 3);
+    });
+
+    vat.on('hincrby foo', function(field, value, newValue) {
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(newValue, 3);
+    });
+
+    vat.hset('foo', 'a', 2);
+    vat.hincr('foo', 'a');
+
+    test.expect(12);
+    vat.die();
+    test.done();
+
+  },
 
 });
