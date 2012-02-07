@@ -1064,5 +1064,27 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `lpushx` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lpushx', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'two');
+    });
+
+    vat.on('lpushx mylist', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.lpush('mylist', 'one');
+    vat.lpushx('mylist', 'two');
+    vat.lpushx('myotherlist', 'three');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+
+  },
 
 });

@@ -777,4 +777,19 @@ this.methodSuite = {
       test.done();
 
     },
+    'Invoke `lpushx` method and report return value and stored value': function(test) {
+
+      var vat = EventVat();
+
+      vat.lpush('mylist', 'one');
+      test.equal(vat.lpushx('mylist', 'two'), 2);
+      test.equal(vat.lindex('mylist', 0), 'two');
+
+      test.equal(vat.lpushx('myotherlist', 'three'), 0);
+      test.equal(vat.llen('myotherlist'), false);
+
+      vat.die();
+      test.done();
+
+    },
 };
