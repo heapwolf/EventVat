@@ -1,6 +1,6 @@
 {
   "name" : "eventvat",
-  "version" : "0.1.5",
+  "version" : "0.1.6",
   "description" : "Evented, in-process key/value store for Node.js and the browser",
   "main" : "./lib/index.js",
   "directories" : {
