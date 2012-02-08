@@ -861,11 +861,11 @@ module.exports = simpleEvents({
 
     vat.on('hmget', function(key, values) {
       test.equal(key, 'foo');
-      test.deepEqual(values, [1, 2, false]);
+      test.deepEqual(values, [1, 2, null]);
     });
 
     vat.on('hmget foo', function(values) {
-      test.deepEqual(values, [1, 2, false]);
+      test.deepEqual(values, [1, 2, null]);
     });
 
     vat.hset('foo', 'a', 1);
@@ -937,6 +937,339 @@ module.exports = simpleEvents({
     vat.hmset('foo', 'a', 1, 'b', 2, 'c', 3);
 
     test.expect(28);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `lpush` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.once('lpush', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'one');
+      vat.once('lpush', function(key, value) {
+        test.equal(key, 'mylist');
+        test.equal(value, 'two');
+      });
+    });
+
+    vat.once('lpush mylist', function(value) {
+      test.equal(value, 'one');
+      vat.once('lpush mylist', function(value) {
+        test.equal(value, 'two');
+      });
+    });
+
+    vat.lpush('mylist', 'one');
+    vat.lpush('mylist', 'two');
+
+    test.expect(6);
+    vat.die();
+    test.done();
+  },
+  'Raise event on `rpush` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.once('rpush', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'one');
+      vat.once('rpush', function(key, value) {
+        test.equal(key, 'mylist');
+        test.equal(value, 'two');
+      });
+    });
+
+    vat.once('rpush mylist', function(value) {
+      test.equal(value, 'one');
+      vat.once('rpush mylist', function(value) {
+        test.equal(value, 'two');
+      });
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+
+    test.expect(6);
+    vat.die();
+    test.done();
+  },
+  'Raise event on `lset` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lset', function(key, index, value) {
+      test.equal(key, 'mylist');
+      test.equal(index, 0);
+      test.equal(value, 'one');
+    });
+
+    vat.on('lset mylist', function(index, value) {
+      test.equal(index, 0);
+      test.equal(value, 'one');
+    });
+
+    vat.rpush('mylist', 'foo');
+    vat.lset('mylist', 0, 'one');
+
+    test.expect(5);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `lindex` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lindex', function(key, index, value) {
+      test.equal(key, 'mylist');
+      test.equal(index, 0);
+      test.equal(value, 'foo');
+    });
+
+    vat.on('lindex mylist', function(index, value) {
+      test.equal(index, 0);
+      test.equal(value, 'foo');
+    });
+
+    vat.rpush('mylist', 'foo');
+    vat.lindex('mylist', 0);
+
+    test.expect(5);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `llen` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('llen', function(key, len) {
+      test.equal(key, 'mylist');
+      test.equal(len, 3);
+    });
+
+    vat.on('llen mylist', function(len) {
+      test.equal(len, 3);
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.rpush('mylist', 'three');
+    vat.llen('mylist');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `lpushx` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lpushx', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'two');
+    });
+
+    vat.on('lpushx mylist', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.lpush('mylist', 'one');
+    vat.lpushx('mylist', 'two');
+    vat.lpushx('myotherlist', 'three');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `rpushx` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('rpushx', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpushx mylist', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpushx('mylist', 'two');
+    vat.rpushx('myotherlist', 'three');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `lpop` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lpop', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'one');
+    });
+
+    vat.on('lpop mylist', function(value) {
+      test.equal(value, 'one');
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.lpop('mylist');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+  },
+  'Raise event on `rpop` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('rpop', function(key, value) {
+      test.equal(key, 'mylist');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpop mylist', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.rpop('mylist');
+
+    test.expect(3);
+    vat.die();
+    test.done();
+  },
+  'Raise event on `rpoplpush` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('rpoplpush', function(source, destination, value) {
+      test.equal(source, 'mylist');
+      test.equal(destination, 'mylist2');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpoplpush mylist', function(destination, value) {
+      test.equal(destination, 'mylist2');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpop', function(source, value) {
+      test.equal(source, 'mylist');
+      test.equal(value, 'two');
+    });
+
+    vat.on('rpop mylist', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.on('lpush', function(destination, value) {
+      test.equal(destination, 'mylist2');
+      test.equal(value, 'two');
+    });
+
+    vat.on('lpush mylist2', function(value) {
+      test.equal(value, 'two');
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.rpush('mylist2', 'three');
+    vat.rpoplpush('mylist', 'mylist2');
+
+    test.expect(11);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `lrem` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lrem', function(key, count, value, n) {
+      test.equal(key, 'mylist');
+      test.equal(count, 0);
+      test.equal(value, 'two');
+      test.equal(n, 1);
+    });
+
+    vat.on('lrem mylist', function(count, value, n) {
+      test.equal(count, 0);
+      test.equal(value, 'two');
+      test.equal(n, 1);
+    });
+
+    vat.rpush('mylist', 'one');
+    vat.rpush('mylist', 'two');
+    vat.rpush('mylist', 'three');
+    vat.lrem('mylist', 0, 'two');
+
+    test.expect(7);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `lrange` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('lrange', function(key, start, stop, range) {
+      test.equal(key, 'list');
+      test.equal(start, 2);
+      test.equal(stop, 4);
+      test.deepEqual(range, ['three', 'four']);
+    });
+
+    vat.on('lrange list', function(start, stop, range) {
+      test.equal(start, 2);
+      test.equal(stop, 4);
+      test.deepEqual(range, ['three', 'four']);
+    });
+
+    vat.rpush('list', 'one');
+    vat.rpush('list', 'two');
+    vat.rpush('list', 'three');
+    vat.rpush('list', 'four');
+    vat.lrange('list', 2, 4);
+
+    test.expect(7);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `ltrim` method invokation': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('ltrim', function(key, start, stop) {
+      test.equal(key, 'list');
+      test.equal(start, 0);
+      test.equal(stop, 3);
+    });
+
+    vat.on('ltrim list', function(start, stop) {
+      test.equal(start, 0);
+      test.equal(stop, 3);
+    });
+
+    vat.rpush('list', 'one')
+    vat.rpush('list', 'two');
+    vat.rpush('list', 'three');
+    vat.rpush('list', 'four');
+    vat.ltrim('list', 0, 3);
+
+    test.expect(5);
     vat.die();
     test.done();
 
