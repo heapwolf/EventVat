@@ -88,6 +88,28 @@ module.exports = simpleEvents({
     test.done();
 
   },
+  'Raise event on `getset` method invokation': function (test) {
+
+    var vat = EventVat();
+
+    vat.on('getset', function(key, value, old) {
+      test.equal(key, 'foo');
+      test.equal(value, 2);
+      test.equal(old, 1);
+    });
+
+    vat.on('getset foo', function(value, old) {
+      test.equal(value, 2);
+      test.equal(old, 1);
+    });
+
+    vat.set('foo', 1);
+    vat.getset('foo', 2);
+
+    test.expect(5);
+    vat.die();
+    test.done();
+  },
   'Raise event on `rename` method invokation': function (test) {
 
     var vat = EventVat();
