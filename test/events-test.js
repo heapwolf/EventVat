@@ -312,15 +312,15 @@ module.exports = simpleEvents({
     
     var vat = EventVat();
 
-    vat.on('append', function(key, value, newValue) {
+    vat.on('append', function(key, value, len) {
       test.equal(key, 'foo');
       test.equal(value, 'bar');
-      test.equal(newValue, 'foobar');
+      test.equal(len, 6);
     });
 
-    vat.on('append foo', function(value, newValue) {
+    vat.on('append foo', function(value, len) {
       test.equal(value, 'bar');
-      test.equal(newValue, 'foobar');
+      test.equal(len, 6);
     });
 
     vat.set('foo', 'foo');
@@ -400,9 +400,9 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.on('keys', function(keys, regex) {
-      test.deepEqual(keys, ['one', 'two']);
+    vat.on('keys', function(regex, keys) {
       test.equal(regex, r);
+      test.deepEqual(keys, ['one', 'two']);
     });
 
     vat.set('foo', 'bar');
@@ -462,19 +462,23 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.on('getrange', function(key, value) {
+    vat.on('getrange', function(key, start, end, value) {
       test.equal(key, 'foo');
+      test.equal(start, 6);
+      test.equal(end, 11);
       test.equal(value, 'world');
     });
 
-    vat.on('getrange foo', function(value) {
+    vat.on('getrange foo', function(start, end, value) {
+      test.equal(start, 6);
+      test.equal(end, 11);
       test.equal(value, 'world');
     });
 
     vat.set('foo', 'hello world!');
     vat.getrange('foo', 6, 11);
 
-    test.expect(3);
+    test.expect(7);
     vat.die();
     test.done();
 
@@ -483,7 +487,9 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.on('mget', function(values) {
+    vat.on('mget', function(key1, key2, values) {
+      test.equal(key1, 'foo');
+      test.equal(key2, 'bar');
       test.deepEqual(values, ['hello world!', 42]);
     });
 
@@ -491,7 +497,7 @@ module.exports = simpleEvents({
     vat.set('bar', 42);
     vat.mget('foo', 'bar');
 
-    test.expect(1);
+    test.expect(3);
     vat.die();
     test.done();
 
@@ -587,47 +593,28 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.on('setrange', function(key, value) {
+    vat.on('setrange', function(key, offset, value, len) {
       test.equal(key, 'foo');
-      test.equal(value, 'hello redis!');
+      test.equal(offset, 6);
+      test.equal(value, 'redis');
+      test.equal(len, 12);
     });
 
-    vat.on('setrange foo', function(value) {
-      test.equal(value, 'hello redis!');
+    vat.on('setrange foo', function(offset, value, len) {
+      test.equal(offset, 6);
+      test.equal(value, 'redis');
+      test.equal(len, 12);
     });
 
     vat.set('foo', 'hello world!');
     vat.setrange('foo', 6, 'redis');
 
-    test.expect(3);
+    test.expect(7);
     vat.die();
     test.done();
 
   },
-  'Raise event on `hset` method invokation': function(test) {
-
-    var vat = EventVat();
-
-    vat.on('hget', function(key, field, value) {
-      test.equal(key, 'hash');
-      test.equal(field, 'a');
-      test.equal(value, 1);
-    });
-
-    vat.on('hset hash', function(field, value) {
-      test.equal(field, 'a');
-      test.equal(value, 1);
-    });
-
-    vat.hset('hash', 'a', 1);
-    vat.hget('hash', 'a');
-
-    test.expect(5);
-    vat.die();
-    test.done();
-
-  },
-  'Raise event on `hset` method invokation': function(test) {
+  'Raise event on `hget` method invokation': function(test) {
 
     var vat = EventVat();
 
@@ -646,6 +633,59 @@ module.exports = simpleEvents({
     vat.hget('hash', 'a');
 
     test.expect(5);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `hset` method invokation for non-existing key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hset', function(key, field, value, update) {
+      test.equal(key, 'hash');
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(update, false);
+    });
+
+    vat.on('hset hash', function(field, value, update) {
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(update, false);
+    });
+
+    vat.hset('hash', 'a', 1);
+    vat.hget('hash', 'a');
+
+    test.expect(7);
+    vat.die();
+    test.done();
+
+  },
+  'Raise event on `hset` method invokation for pre-existing key': function(test) {
+
+    var vat = EventVat();
+
+    vat.on('hset', function(key, field, value, update) {
+      if (value !== 1) return;
+      test.equal(key, 'hash');
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(update, true);
+    });
+
+    vat.on('hset hash', function(field, value, update) {
+      if (value !== 1) return;
+      test.equal(field, 'a');
+      test.equal(value, 1);
+      test.equal(update, true);
+    });
+
+    vat.hset('hash', 'a', 'hi');
+    vat.hset('hash', 'a', 1);
+    vat.hget('hash', 'a');
+
+    test.expect(7);
     vat.die();
     test.done();
 
@@ -967,26 +1007,32 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.once('lpush', function(key, value) {
+    vat.once('lpush', function(key, value, len) {
       test.equal(key, 'mylist');
       test.equal(value, 'one');
-      vat.once('lpush', function(key, value) {
+      test.equal(len, 1);
+
+      vat.once('lpush', function(key, value, len) {
         test.equal(key, 'mylist');
         test.equal(value, 'two');
+        test.equal(len, 2);
       });
     });
 
-    vat.once('lpush mylist', function(value) {
+    vat.once('lpush mylist', function(value, len) {
       test.equal(value, 'one');
-      vat.once('lpush mylist', function(value) {
+      test.equal(len, 1);
+
+      vat.once('lpush mylist', function(value, len) {
         test.equal(value, 'two');
+        test.equal(len, 2);
       });
     });
 
     vat.lpush('mylist', 'one');
     vat.lpush('mylist', 'two');
 
-    test.expect(6);
+    test.expect(10);
     vat.die();
     test.done();
   },
@@ -994,26 +1040,32 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.once('rpush', function(key, value) {
+    vat.once('rpush', function(key, value, len) {
       test.equal(key, 'mylist');
       test.equal(value, 'one');
-      vat.once('rpush', function(key, value) {
+      test.equal(len, 1);
+
+      vat.once('rpush', function(key, value, len) {
         test.equal(key, 'mylist');
         test.equal(value, 'two');
+        test.equal(len, 2);
       });
     });
 
-    vat.once('rpush mylist', function(value) {
+    vat.once('rpush mylist', function(value, len) {
       test.equal(value, 'one');
-      vat.once('rpush mylist', function(value) {
+      test.equal(len, 1);
+
+      vat.once('rpush mylist', function(value, len) {
         test.equal(value, 'two');
+        test.equal(len, 2);
       });
     });
 
     vat.rpush('mylist', 'one');
     vat.rpush('mylist', 'two');
 
-    test.expect(6);
+    test.expect(10);
     vat.die();
     test.done();
   },
@@ -1090,20 +1142,22 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.on('lpushx', function(key, value) {
+    vat.on('lpushx', function(key, value, len) {
       test.equal(key, 'mylist');
       test.equal(value, 'two');
+      test.equal(len, 2);
     });
 
-    vat.on('lpushx mylist', function(value) {
+    vat.on('lpushx mylist', function(value, len) {
       test.equal(value, 'two');
+      test.equal(len, 2);
     });
 
     vat.lpush('mylist', 'one');
     vat.lpushx('mylist', 'two');
     vat.lpushx('myotherlist', 'three');
 
-    test.expect(3);
+    test.expect(5);
     vat.die();
     test.done();
 
@@ -1112,20 +1166,22 @@ module.exports = simpleEvents({
 
     var vat = EventVat();
 
-    vat.on('rpushx', function(key, value) {
+    vat.on('rpushx', function(key, value, len) {
       test.equal(key, 'mylist');
       test.equal(value, 'two');
+      test.equal(len, 2);
     });
 
-    vat.on('rpushx mylist', function(value) {
+    vat.on('rpushx mylist', function(value, len) {
       test.equal(value, 'two');
+      test.equal(len, 2);
     });
 
     vat.rpush('mylist', 'one');
     vat.rpushx('mylist', 'two');
     vat.rpushx('myotherlist', 'three');
 
-    test.expect(3);
+    test.expect(5);
     vat.die();
     test.done();
 
@@ -1196,13 +1252,15 @@ module.exports = simpleEvents({
       test.equal(value, 'two');
     });
 
-    vat.on('lpush', function(destination, value) {
+    vat.on('lpush', function(destination, value, len) {
       test.equal(destination, 'mylist2');
       test.equal(value, 'two');
+      test.equal(len, 2);
     });
 
-    vat.on('lpush mylist2', function(value) {
+    vat.on('lpush mylist2', function(value, len) {
       test.equal(value, 'two');
+      test.equal(len, 2);
     });
 
     vat.rpush('mylist', 'one');
@@ -1210,7 +1268,7 @@ module.exports = simpleEvents({
     vat.rpush('mylist2', 'three');
     vat.rpoplpush('mylist', 'mylist2');
 
-    test.expect(11);
+    test.expect(13);
     vat.die();
     test.done();
 
