@@ -74,6 +74,21 @@ this.methodSuite = {
       test.done();
 
     },    
+    'Invoke `getset` method and report returned value and stored value': function (test) {
+
+      var vat = EventVat();
+
+      test.equal(vat.get('foo'), null);
+      vat.set('foo', 1);
+      test.equal(vat.get('foo'), 1);
+
+      test.equal(vat.getset('foo', 2), 1);
+      test.equal(vat.get('foo'), 2);
+
+      vat.die();
+      test.done();
+
+    },
     'Invoke `rename` method and get the value of the new key': function (test) {
 
       var vat = EventVat();
