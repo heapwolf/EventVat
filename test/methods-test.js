@@ -957,7 +957,7 @@ this.methodSuite = {
 
       var vat = EventVat();
 
-      vat.rpush('list', 'one')
+      vat.rpush('list', 'one');
       vat.rpush('list', 'two');
       vat.rpush('list', 'three');
       vat.rpush('list', 'four');
@@ -968,6 +968,27 @@ this.methodSuite = {
       test.deepEqual(vat.lrange('list', 0, 100), ['one', 'two', 'three']);
 
       vat.die();
+      test.done();
+
+    },
+    'Reconstitute a vat from a JSON object': function(test) {
+
+      var vat1 = EventVat();
+
+      vat1.set('foo', 'a', 1);
+      vat1.hset('bar', 'a', 1);
+
+      vat1.rpush('bazz', 'a');
+      vat1.rpush('bazz', 'b');
+
+      var vat2 = EventVat({
+        data: vat1.dump()
+      });
+
+      test.equal(vat2.get('foo'), 'a');
+      test.equal(vat2.llen('bazz'), 2);
+      test.equal(vat2.hget('bar', 'a'), 1);
+
       test.done();
 
     },
