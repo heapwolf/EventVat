@@ -986,6 +986,25 @@ this.methodSuite = {
       test.done();
 
     },
+    'Autoexpire should expire all keys after a specified length of time': function(test) {
+
+      var vat = EventVat({
+        autoexpire: 1
+      });
+
+      vat.set('foo', 'hello');
+      vat.hset('bar', 'a', 'hello');
+
+      vat.rpush('bazz', 'a');
+      vat.rpush('bazz', 'b');
+
+      vat.on('del', function() {
+        if (Object.keys(vat.hash).length === 0) {
+          test.done();
+        }
+      });
+
+    },
     'Reconstitute a vat from a JSON object': function(test) {
 
       var vat1 = EventVat();
