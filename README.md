@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/hij1nx/EventVat.png)](http://travis-ci.org/hij1nx/EventVat)
 ![Alt text](https://github.com/hij1nx/EventVat/raw/master/logo.png)
 
 # Synopsis
