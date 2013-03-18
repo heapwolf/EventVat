@@ -21,13 +21,12 @@ $npm install eventvat
 Each new instance of `EventVat` is a hash. There are lots of convenient methods attached to each new instance.
 
 ## events
-EventVat uses <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter</a>. Listeners can attached to an EventVat object. An EventVat object can emit and event and a listener will respond. An event has three characteristics, the event name, a listener and an associated data key or wildcard.
+EventVat uses <a href="https://github.com/hij1nx/EventEmitter2">EventEmitter2</a>. Listeners can attached to an EventVat object. An EventVat object can emit and event and a listener will respond. An event has three characteristics, the event name, a listener and an associated data key or wildcard.
 
 ```javascript
   var vat = EventVat();
 
-  vat.on('get foo', function(key, value)
-
+  vat.on('get foo', function(key, value) {
 
     console.log('`' + key + '` has the value: `' + value + '`');
   });
